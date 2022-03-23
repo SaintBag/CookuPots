@@ -1,0 +1,592 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A269EFD27EB46F300927540 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A269EFC27EB46F300927540 /* AppDelegate.swift */; };
+		3A269EFF27EB46F300927540 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A269EFE27EB46F300927540 /* SceneDelegate.swift */; };
+		3A269F0127EB46F300927540 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A269F0027EB46F300927540 /* ViewController.swift */; };
+		3A269F0427EB46F300927540 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A269F0227EB46F300927540 /* Main.storyboard */; };
+		3A269F0627EB470A00927540 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A269F0527EB470A00927540 /* Assets.xcassets */; };
+		3A269F0927EB470A00927540 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A269F0727EB470A00927540 /* LaunchScreen.storyboard */; };
+		3A269F1427EB470A00927540 /* CookuPotsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A269F1327EB470A00927540 /* CookuPotsTests.swift */; };
+		3A269F1F27EB470B00927540 /* CookuPotsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A269F1E27EB470B00927540 /* CookuPotsUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3A269F1027EB470A00927540 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A269EF127EB46F300927540 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A269EF827EB46F300927540;
+			remoteInfo = CookuPots;
+		};
+		3A269F1B27EB470B00927540 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A269EF127EB46F300927540 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A269EF827EB46F300927540;
+			remoteInfo = CookuPots;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3A269EF927EB46F300927540 /* CookuPots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CookuPots.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A269EFC27EB46F300927540 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3A269EFE27EB46F300927540 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		3A269F0027EB46F300927540 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3A269F0327EB46F300927540 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3A269F0527EB470A00927540 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3A269F0827EB470A00927540 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3A269F0A27EB470A00927540 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A269F0F27EB470A00927540 /* CookuPotsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookuPotsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A269F1327EB470A00927540 /* CookuPotsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookuPotsTests.swift; sourceTree = "<group>"; };
+		3A269F1527EB470A00927540 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A269F1A27EB470B00927540 /* CookuPotsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookuPotsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A269F1E27EB470B00927540 /* CookuPotsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookuPotsUITests.swift; sourceTree = "<group>"; };
+		3A269F2027EB470B00927540 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3A269EF627EB46F300927540 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A269F0C27EB470A00927540 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A269F1727EB470B00927540 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3A269EF027EB46F300927540 = {
+			isa = PBXGroup;
+			children = (
+				3A269EFB27EB46F300927540 /* CookuPots */,
+				3A269F1227EB470A00927540 /* CookuPotsTests */,
+				3A269F1D27EB470B00927540 /* CookuPotsUITests */,
+				3A269EFA27EB46F300927540 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3A269EFA27EB46F300927540 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3A269EF927EB46F300927540 /* CookuPots.app */,
+				3A269F0F27EB470A00927540 /* CookuPotsTests.xctest */,
+				3A269F1A27EB470B00927540 /* CookuPotsUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3A269EFB27EB46F300927540 /* CookuPots */ = {
+			isa = PBXGroup;
+			children = (
+				3A269EFC27EB46F300927540 /* AppDelegate.swift */,
+				3A269EFE27EB46F300927540 /* SceneDelegate.swift */,
+				3A269F0027EB46F300927540 /* ViewController.swift */,
+				3A269F0227EB46F300927540 /* Main.storyboard */,
+				3A269F0527EB470A00927540 /* Assets.xcassets */,
+				3A269F0727EB470A00927540 /* LaunchScreen.storyboard */,
+				3A269F0A27EB470A00927540 /* Info.plist */,
+			);
+			path = CookuPots;
+			sourceTree = "<group>";
+		};
+		3A269F1227EB470A00927540 /* CookuPotsTests */ = {
+			isa = PBXGroup;
+			children = (
+				3A269F1327EB470A00927540 /* CookuPotsTests.swift */,
+				3A269F1527EB470A00927540 /* Info.plist */,
+			);
+			path = CookuPotsTests;
+			sourceTree = "<group>";
+		};
+		3A269F1D27EB470B00927540 /* CookuPotsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3A269F1E27EB470B00927540 /* CookuPotsUITests.swift */,
+				3A269F2027EB470B00927540 /* Info.plist */,
+			);
+			path = CookuPotsUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3A269EF827EB46F300927540 /* CookuPots */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A269F2327EB470B00927540 /* Build configuration list for PBXNativeTarget "CookuPots" */;
+			buildPhases = (
+				3A269EF527EB46F300927540 /* Sources */,
+				3A269EF627EB46F300927540 /* Frameworks */,
+				3A269EF727EB46F300927540 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CookuPots;
+			productName = CookuPots;
+			productReference = 3A269EF927EB46F300927540 /* CookuPots.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3A269F0E27EB470A00927540 /* CookuPotsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A269F2627EB470B00927540 /* Build configuration list for PBXNativeTarget "CookuPotsTests" */;
+			buildPhases = (
+				3A269F0B27EB470A00927540 /* Sources */,
+				3A269F0C27EB470A00927540 /* Frameworks */,
+				3A269F0D27EB470A00927540 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A269F1127EB470A00927540 /* PBXTargetDependency */,
+			);
+			name = CookuPotsTests;
+			productName = CookuPotsTests;
+			productReference = 3A269F0F27EB470A00927540 /* CookuPotsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3A269F1927EB470B00927540 /* CookuPotsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A269F2927EB470B00927540 /* Build configuration list for PBXNativeTarget "CookuPotsUITests" */;
+			buildPhases = (
+				3A269F1627EB470B00927540 /* Sources */,
+				3A269F1727EB470B00927540 /* Frameworks */,
+				3A269F1827EB470B00927540 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A269F1C27EB470B00927540 /* PBXTargetDependency */,
+			);
+			name = CookuPotsUITests;
+			productName = CookuPotsUITests;
+			productReference = 3A269F1A27EB470B00927540 /* CookuPotsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3A269EF127EB46F300927540 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					3A269EF827EB46F300927540 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					3A269F0E27EB470A00927540 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 3A269EF827EB46F300927540;
+					};
+					3A269F1927EB470B00927540 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 3A269EF827EB46F300927540;
+					};
+				};
+			};
+			buildConfigurationList = 3A269EF427EB46F300927540 /* Build configuration list for PBXProject "CookuPots" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3A269EF027EB46F300927540;
+			productRefGroup = 3A269EFA27EB46F300927540 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3A269EF827EB46F300927540 /* CookuPots */,
+				3A269F0E27EB470A00927540 /* CookuPotsTests */,
+				3A269F1927EB470B00927540 /* CookuPotsUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3A269EF727EB46F300927540 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A269F0927EB470A00927540 /* LaunchScreen.storyboard in Resources */,
+				3A269F0627EB470A00927540 /* Assets.xcassets in Resources */,
+				3A269F0427EB46F300927540 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A269F0D27EB470A00927540 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A269F1827EB470B00927540 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3A269EF527EB46F300927540 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A269F0127EB46F300927540 /* ViewController.swift in Sources */,
+				3A269EFD27EB46F300927540 /* AppDelegate.swift in Sources */,
+				3A269EFF27EB46F300927540 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A269F0B27EB470A00927540 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A269F1427EB470A00927540 /* CookuPotsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A269F1627EB470B00927540 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A269F1F27EB470B00927540 /* CookuPotsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3A269F1127EB470A00927540 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A269EF827EB46F300927540 /* CookuPots */;
+			targetProxy = 3A269F1027EB470A00927540 /* PBXContainerItemProxy */;
+		};
+		3A269F1C27EB470B00927540 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A269EF827EB46F300927540 /* CookuPots */;
+			targetProxy = 3A269F1B27EB470B00927540 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3A269F0227EB46F300927540 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A269F0327EB46F300927540 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3A269F0727EB470A00927540 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A269F0827EB470A00927540 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3A269F2127EB470B00927540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3A269F2227EB470B00927540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3A269F2427EB470B00927540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CookuPots/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebulla.CookuPots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3A269F2527EB470B00927540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CookuPots/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebulla.CookuPots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3A269F2727EB470B00927540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CookuPotsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebulla.CookuPotsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CookuPots.app/CookuPots";
+			};
+			name = Debug;
+		};
+		3A269F2827EB470B00927540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CookuPotsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebulla.CookuPotsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CookuPots.app/CookuPots";
+			};
+			name = Release;
+		};
+		3A269F2A27EB470B00927540 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CookuPotsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebulla.CookuPotsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CookuPots;
+			};
+			name = Debug;
+		};
+		3A269F2B27EB470B00927540 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CookuPotsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebulla.CookuPotsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CookuPots;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3A269EF427EB46F300927540 /* Build configuration list for PBXProject "CookuPots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A269F2127EB470B00927540 /* Debug */,
+				3A269F2227EB470B00927540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A269F2327EB470B00927540 /* Build configuration list for PBXNativeTarget "CookuPots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A269F2427EB470B00927540 /* Debug */,
+				3A269F2527EB470B00927540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A269F2627EB470B00927540 /* Build configuration list for PBXNativeTarget "CookuPotsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A269F2727EB470B00927540 /* Debug */,
+				3A269F2827EB470B00927540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A269F2927EB470B00927540 /* Build configuration list for PBXNativeTarget "CookuPotsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A269F2A27EB470B00927540 /* Debug */,
+				3A269F2B27EB470B00927540 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3A269EF127EB46F300927540 /* Project object */;
+}
