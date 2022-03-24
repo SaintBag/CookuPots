@@ -8,9 +8,8 @@
 import UIKit
 
 class CategoriesVC: UICollectionViewController {
-    
+    let apiClient = APIClient()
     let searchBar = UISearchBar()
-    
     static let categoryHeaderId = "categoryHeaderId"
     static let recomendedHeaderId = "recomendedHeaderId"
     let headerId = "headerId"
@@ -70,20 +69,16 @@ class CategoriesVC: UICollectionViewController {
                 item.contentInsets.trailing = 8
                 item.contentInsets.bottom = 16
                 item.contentInsets.leading = 8
-                item.contentInsets.top = 16
                 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(250)), subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
                 
-                section.contentInsets.top = 50
                 section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.boundarySupplementaryItems = [
                     .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)), elementKind: categoryHeaderId, alignment: .topLeading)
                     
                 ]
-                
-                
                 return section
                 
             }
@@ -92,12 +87,15 @@ class CategoriesVC: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = UIViewController()
-        vc.view.backgroundColor = indexPath.section == 0 ? .yellow : .blue
-        self.navigationController!.pushViewController(vc,animated: true)
+//        let vc = UIViewController()
+//        vc.view.backgroundColor = indexPath.section == 0 ? .yellow : .blue
+//        self.navigationController!.pushViewController(vc,animated: true)
+        apiClient.downloadRecipies { (data, error) in
+            print(String(data: data!, encoding: .utf8))
+            print(error)
+        }
+        
     }
-    
-    
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         2
@@ -109,8 +107,6 @@ class CategoriesVC: UICollectionViewController {
         }
         return 3
     }
-    
-    
     
     //MARK: - Categories Header
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -126,8 +122,7 @@ class CategoriesVC: UICollectionViewController {
         return UICollectionReusableView()
     }
     
-    
-    
+        
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionCellId , for: indexPath)
@@ -153,7 +148,6 @@ class Header: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         addSubview(label)
     }
     
@@ -181,7 +175,7 @@ extension CategoriesVC {
     
     func configureUI() {
         view.backgroundColor = .white
-     
+        
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]

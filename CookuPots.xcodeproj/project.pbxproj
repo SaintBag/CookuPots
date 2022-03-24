@@ -14,6 +14,7 @@
 		3A269F1427EB470A00927540 /* CookuPotsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A269F1327EB470A00927540 /* CookuPotsTests.swift */; };
 		3A269F1F27EB470B00927540 /* CookuPotsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A269F1E27EB470B00927540 /* CookuPotsUITests.swift */; };
 		3A269F3927EB4CED00927540 /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A269F3827EB4CED00927540 /* CategoriesVC.swift */; };
+		3A44842427ECB469002C948A /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A44842327ECB469002C948A /* APIClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		3A269F1E27EB470B00927540 /* CookuPotsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookuPotsUITests.swift; sourceTree = "<group>"; };
 		3A269F2027EB470B00927540 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A269F3827EB4CED00927540 /* CategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
+		3A44842327ECB469002C948A /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 		3A269EFB27EB46F300927540 /* CookuPots */ = {
 			isa = PBXGroup;
 			children = (
+				3A44842227ECB440002C948A /* Services */,
 				3A269EFC27EB46F300927540 /* AppDelegate.swift */,
 				3A269EFE27EB46F300927540 /* SceneDelegate.swift */,
 				3A44841D27ECA0DA002C948A /* Screens */,
@@ -139,6 +142,14 @@
 				3A269F3827EB4CED00927540 /* CategoriesVC.swift */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		3A44842227ECB440002C948A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				3A44842327ECB469002C948A /* APIClient.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,6 +284,7 @@
 				3A269F3927EB4CED00927540 /* CategoriesVC.swift in Sources */,
 				3A269EFD27EB46F300927540 /* AppDelegate.swift in Sources */,
 				3A269EFF27EB46F300927540 /* SceneDelegate.swift in Sources */,
+				3A44842427ECB469002C948A /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
