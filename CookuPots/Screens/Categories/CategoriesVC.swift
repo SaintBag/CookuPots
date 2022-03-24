@@ -90,8 +90,8 @@ class CategoriesVC: UICollectionViewController {
 //        let vc = UIViewController()
 //        vc.view.backgroundColor = indexPath.section == 0 ? .yellow : .blue
 //        self.navigationController!.pushViewController(vc,animated: true)
-        apiClient.downloadRecipies { (data, error) in
-            print(String(data: data!, encoding: .utf8))
+        apiClient.downloadRecipies { (recipies, error) in
+          
             print(error)
         }
         
