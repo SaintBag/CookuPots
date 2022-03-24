@@ -99,7 +99,7 @@
 			children = (
 				3A269EFC27EB46F300927540 /* AppDelegate.swift */,
 				3A269EFE27EB46F300927540 /* SceneDelegate.swift */,
-				3A269F3827EB4CED00927540 /* CategoriesVC.swift */,
+				3A44841D27ECA0DA002C948A /* Screens */,
 				3A269F0527EB470A00927540 /* Assets.xcassets */,
 				3A269F0727EB470A00927540 /* LaunchScreen.storyboard */,
 				3A269F0A27EB470A00927540 /* Info.plist */,
@@ -123,6 +123,22 @@
 				3A269F2027EB470B00927540 /* Info.plist */,
 			);
 			path = CookuPotsUITests;
+			sourceTree = "<group>";
+		};
+		3A44841D27ECA0DA002C948A /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				3A44841E27ECA0E8002C948A /* Categories */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		3A44841E27ECA0E8002C948A /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				3A269F3827EB4CED00927540 /* CategoriesVC.swift */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
