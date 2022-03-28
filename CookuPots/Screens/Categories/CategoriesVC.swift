@@ -11,9 +11,7 @@ class CategoriesVC: UICollectionViewController {
     let apiClient = APIClient()
     let searchBar = UISearchBar()
     static let categoryHeaderId = "categoryHeaderId"
-    static let recomendedHeaderId = "recomendedHeaderId"
     let headerId = "headerId"
-    let recommendedId = "recommendedId"
     let CollectionCellId = "CollectionCellId"
     
     
@@ -85,14 +83,24 @@ class CategoriesVC: UICollectionViewController {
             return nil
         }
     }
-    
+   
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        let vc = UIViewController()
 //        vc.view.backgroundColor = indexPath.section == 0 ? .yellow : .blue
 //        self.navigationController!.pushViewController(vc,animated: true)
-        apiClient.downloadRecipies { (recipies, error) in
-          
+        // TODO: push to RecipeListVC and pass proper food category
+        // navigation controller.pushVC(RecipeListVC(category: .dinner))
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                // navigation controller.pushVC(RecipeListVC(category: .dinner))
+            } else if indexPath.row == 1 {
+                // navigation controller.pushVC(RecipeListVC(category: .dinner))
+            }
+        }
+        apiClient.downloadRecipies {  (recipie, error) in
             print(error)
+            print(recipie[0].)
+        
         }
         
     }
