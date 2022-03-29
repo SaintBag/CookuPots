@@ -50,7 +50,7 @@ class APIClient {
     let spoonacularKey = "4414fe9b06284b2ba5ea75f7a9d9e9e1"
     
     func downloadRecipies(ofType type: FoodCategory, onComplete: @escaping ([Recipe], Error?) -> Void) {
-        
+        "https://spoonacular.com/recipeImages/655186-312x231.jpg"
         
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/complexSearch"

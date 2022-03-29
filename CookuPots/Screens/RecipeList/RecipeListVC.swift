@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class RecipeListVC: UIViewController {
     
@@ -37,7 +38,6 @@ class RecipeListVC: UIViewController {
         configureTableView()
         apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipies, error) in
             self?.recipes = recipies
-            
         }
     }
     func configureTableView() {
@@ -60,28 +60,33 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-  
+        
         return recipes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CellID.RecipeCell) as! RecipeCell
+        
         let recipe = recipes[indexPath.row]
         cell.recipeTitleLabel.text = recipe.title
-        // TODO: how can i show a image as a cell view
-        // cell.set(photo: image)
         
-        
+        let url = URL(string: recipe.image)
+        cell.imageView?.kf.setImage(with: url)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = RecipeDescription()
+        // TODO: not sure about parameters here
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.RecipeCell) as! RecipeCell
+        let recipe = recipes[indexPath.row]
+        let url = URL(string: recipe.image)
+        cell.imageView?.kf.setImage(with: url)
         
-        // TODO: let imageTitle = RecipeImages[indexPath.row].title
+        let recipeTitle = recipe.title
+        title = recipeTitle
         
-        
+        let vc = RecipeDescriptionVC(recipe: Recipe(id: 0, title: "", image: ""))
         self.navigationController?.pushViewController(vc,animated: true)
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         

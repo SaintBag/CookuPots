@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import Kingfisher
+
+// TODO: Not sure where to change 
 
 class CategoriesVC: UICollectionViewController {
     let apiClient = APIClient()
@@ -28,13 +31,13 @@ class CategoriesVC: UICollectionViewController {
         
         navigationItem.title = "Cook U Pots"
         
-        // how to make large title or customize title
+        // TODO: how to make large title or customize title
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: CollectionCellId)
         collectionView.register(Header.self, forSupplementaryViewOfKind: CategoriesVC.categoryHeaderId, withReuseIdentifier: headerId)
         
     }
-    
+   
     private static func createLayout() -> UICollectionViewCompositionalLayout {
         
         return  UICollectionViewCompositionalLayout { (sectionNumber, _) -> NSCollectionLayoutSection? in
@@ -139,7 +142,6 @@ class CategoriesVC: UICollectionViewController {
         }
         return UICollectionReusableView()
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
