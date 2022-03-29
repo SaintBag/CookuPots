@@ -8,9 +8,21 @@
 import UIKit
 import Kingfisher
 
-// TODO: Not sure where to change 
+struct CustomData {
+    var image: UIImage
+    // var url: String example
+    // var title: String example
+}
 
 class CategoriesVC: UICollectionViewController {
+    
+    let data = [
+        CustomData.init(image: #imageLiteral(resourceName: "breakfast")),
+        CustomData.init(image: #imageLiteral(resourceName: "dinner")),
+        CustomData.init(image: #imageLiteral(resourceName: "soup")),
+        CustomData.init(image: #imageLiteral(resourceName: "desserts"))
+    ]
+    
     let apiClient = APIClient()
     let searchBar = UISearchBar()
     static let categoryHeaderId = "categoryHeaderId"
@@ -33,11 +45,11 @@ class CategoriesVC: UICollectionViewController {
         
         // TODO: how to make large title or customize title
         
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: CollectionCellId)
+        collectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CollectionCellId)
         collectionView.register(Header.self, forSupplementaryViewOfKind: CategoriesVC.categoryHeaderId, withReuseIdentifier: headerId)
         
     }
-   
+    
     private static func createLayout() -> UICollectionViewCompositionalLayout {
         
         return  UICollectionViewCompositionalLayout { (sectionNumber, _) -> NSCollectionLayoutSection? in
@@ -88,7 +100,7 @@ class CategoriesVC: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 let vc = RecipeListVC(apiClient: APIClient(), foodType: .breakfast)
@@ -124,7 +136,7 @@ class CategoriesVC: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            return 4
+            return data.count
         }
         return 3
     }
@@ -145,8 +157,8 @@ class CategoriesVC: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionCellId , for: indexPath)
-        cell.backgroundColor = .systemRed
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionCellId , for: indexPath) as! CategoriesCell
+        cell.data = self.data[indexPath.row]
         return cell
     }
     
@@ -265,5 +277,40 @@ extension CategoriesVC: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         search(schouldShow: false)
+    }
+}
+
+
+class CategoriesCell: UICollectionViewCell {
+    
+    var data: CustomData? {
+        didSet {
+            guard let data = data else { return }
+            categoriesImage.image = data.image
+        }
+    }
+    
+    fileprivate let categoriesImage: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.image = UIImage(named: "breakfast")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        
+        return imageView
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(categoriesImage)
+        categoriesImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        categoriesImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        categoriesImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        categoriesImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

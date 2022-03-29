@@ -15,20 +15,20 @@ import UIKit
 
 class RecipeDescriptionVC: UIViewController {
     private let recipe: Recipe
+    private lazy var tableView = UITableView()
     // TODO: Init with recipe
     init(recipe: Recipe) {
         self.recipe = recipe
         super.init(nibName: nil, bundle: nil)
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

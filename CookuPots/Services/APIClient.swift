@@ -42,10 +42,7 @@ struct Recipe: Codable {
 }
 
 class APIClient {
-   
- 
-    
-    
+
     let urlSession = URLSession.shared
     let spoonacularKey = "4414fe9b06284b2ba5ea75f7a9d9e9e1"
     

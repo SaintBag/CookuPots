@@ -28,12 +28,6 @@ class RecipeCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // TODO: HOW TO SET IMAGES AND TITLE LABEL
-    //        func set(photo: image)  {
-    //        recipeImageView.image = photo.image
-    //        recipeTitleLabel.text = photo.title
-    //    }
-    
     func configureImageView() {
         recipeImageView.layer.cornerRadius = 10
         recipeImageView.clipsToBounds = true
