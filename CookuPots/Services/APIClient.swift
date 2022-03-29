@@ -28,20 +28,22 @@ enum FoodCategory {
     }
 }
 
+struct RecipiesResponse: Codable {
+    let results: [Recipe]
+    let offset: Int
+    let number: Int
+    let totalResults: Int
+}
+
+struct Recipe: Codable {
+    let id: Int
+    let title: String
+    let image: String
+}
+
 class APIClient {
    
-    struct RecipiesResponse: Codable {
-        let results: [Recipe]
-        let offset: Int
-        let number: Int
-        let totalResults: Int
-    }
-    
-    struct Recipe: Codable {
-        let id: Int
-        let title: String
-        let image: String
-    }
+ 
     
     
     let urlSession = URLSession.shared

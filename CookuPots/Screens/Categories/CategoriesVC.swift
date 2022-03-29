@@ -83,24 +83,34 @@ class CategoriesVC: UICollectionViewController {
             return nil
         }
     }
-   
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let vc = UIViewController()
-//        vc.view.backgroundColor = indexPath.section == 0 ? .yellow : .blue
-//        self.navigationController!.pushViewController(vc,animated: true)
-        // TODO: push to RecipeListVC and pass proper food category
-        // navigation controller.pushVC(RecipeListVC(category: .dinner))
+
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                // navigation controller.pushVC(RecipeListVC(category: .dinner))
+                let vc = RecipeListVC(apiClient: APIClient(), foodType: .breakfast)
+                vc.title = "BREAKFAST"
+                self.navigationController?.pushViewController(vc, animated: true)
+                
             } else if indexPath.row == 1 {
-                // navigation controller.pushVC(RecipeListVC(category: .dinner))
+                let vc = RecipeListVC(apiClient: APIClient(), foodType: .mainCourse)
+                vc.title = "DINNER"
+                navigationController?.pushViewController(vc, animated: true)
+                
+            } else if indexPath.row == 2 {
+                let vc = RecipeListVC(apiClient: APIClient(), foodType: .soup)
+                navigationController?.pushViewController(vc, animated: true)
+                vc.title = "SOUP"
+                
+            } else {
+                let vc = RecipeListVC(apiClient: APIClient(), foodType: .dessert)
+                navigationController?.pushViewController(vc, animated: true)
+                vc.title = "DESSERT"
             }
-        }
-        apiClient.downloadRecipies {  (recipie, error) in
-            print(error)
-            print(recipie[0].)
-        
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                
+            }
         }
         
     }
@@ -130,7 +140,7 @@ class CategoriesVC: UICollectionViewController {
         return UICollectionReusableView()
     }
     
-        
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionCellId , for: indexPath)
