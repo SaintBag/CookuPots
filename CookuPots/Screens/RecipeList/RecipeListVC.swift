@@ -77,7 +77,7 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: not sure about parameters here
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: CellID.RecipeCell) as! RecipeCell
         let recipe = recipes[indexPath.row]
         let url = URL(string: recipe.image)
@@ -85,8 +85,11 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
         
         let recipeTitle = recipe.title
         title = recipeTitle
-        
-        let vc = RecipeDescriptionVC(recipe: Recipe(id: 0, title: "", image: ""))
+        // TODO: not sure about parameters here
+        let id = recipe.id
+        let title = recipe.title
+        let image = recipe.image
+        let vc = RecipeDescriptionVC(recipe: Recipe.init(id: id, title: title, image: image))
         self.navigationController?.pushViewController(vc,animated: true)
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         

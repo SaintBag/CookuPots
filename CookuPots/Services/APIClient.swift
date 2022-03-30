@@ -41,17 +41,43 @@ struct Recipe: Codable {
     let image: String
 }
 
+struct RecipeInstructionsResponse: Codable {
+    let name: String 
+    let steps: [Steps]
+}
+
+struct Steps: Codable {
+    let number: Int
+    let step: String
+    let ingredients: [Ingredients]
+    let equipment: [Equipment]
+}
+struct Ingredients: Codable {
+    let id: Int
+    let name: String
+}
+
+struct Equipment: Codable {
+    let id: Int
+    let name: String
+    let temperature: [Temperature]
+}
+
+struct Temperature: Codable {
+    let number: Int
+    let unit: String
+}
+
 class APIClient {
 
     let urlSession = URLSession.shared
     let spoonacularKey = "4414fe9b06284b2ba5ea75f7a9d9e9e1"
     
     func downloadRecipies(ofType type: FoodCategory, onComplete: @escaping ([Recipe], Error?) -> Void) {
-        "https://spoonacular.com/recipeImages/655186-312x231.jpg"
-        
+       
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/complexSearch"
-        let params = "?apiKey=\(spoonacularKey)&type=\(type.apiValue)"
+        let params = "?apiKey=\(spoonacularKey)&type=\(type.apiValue)&instructionsRequired=true"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
