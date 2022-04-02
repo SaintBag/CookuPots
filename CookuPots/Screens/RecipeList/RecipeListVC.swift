@@ -36,8 +36,8 @@ class RecipeListVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureTableView()
-        apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipies, error) in
-            self?.recipes = recipies
+        apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipes, error) in
+            self?.recipes = recipes
         }
     }
     func configureTableView() {
@@ -89,7 +89,7 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
         let id = recipe.id
         let title = recipe.title
         let image = recipe.image
-        let vc = RecipeDescriptionVC(recipe: Recipe.init(id: id, title: title, image: image))
+        let vc = RecipeDescriptionVC(recipe: Recipe.init(id: id, title: title, image: image), apiClient: apiClient, recipeID: recipe.id)
         self.navigationController?.pushViewController(vc,animated: true)
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         

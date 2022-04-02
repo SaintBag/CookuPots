@@ -10,7 +10,11 @@ import UIKit
 class RecipeCell: UITableViewCell {
     
     var recipeImageView = UIImageView()
-    var recipeTitleLabel = UILabel()
+    let recipeTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .natural
+        return label
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

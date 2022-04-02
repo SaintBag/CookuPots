@@ -40,13 +40,13 @@ struct Recipe: Codable {
     let title: String
     let image: String
 }
-
+// TODO: How to use 
 struct RecipeInstructionsResponse: Codable {
     let name: String 
-    let steps: [Steps]
+    let steps: [Step]
 }
 
-struct Steps: Codable {
+struct Step: Codable {
     let number: Int
     let step: String
     let ingredients: [Ingredients]
@@ -72,6 +72,33 @@ class APIClient {
 
     let urlSession = URLSession.shared
     let spoonacularKey = "4414fe9b06284b2ba5ea75f7a9d9e9e1"
+    
+    func downloadInstructions(forRecipeID recipeID: Int, onComplete: @escaping ([Step], Error?) -> Void) {
+        let baseURL = "https://api.spoonacular.com"
+        let endpoint = "/recipes/\(recipeID)/analyzedInstructions"
+       
+        let params = "?apiKey=\(spoonacularKey)"
+        guard let url = URL(string: baseURL + endpoint + params) else {
+            return
+        }
+        let request = URLRequest(url: url)
+        urlSession.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    onComplete([], error)
+                } else if let data = data {
+                
+                    do {
+                        let instructions = try JSONDecoder().decode(RecipeInstructionsResponse.self, from: data)
+                        onComplete(instructions.steps, nil)
+                    
+                    } catch let jsonErr {
+                        onComplete([], jsonErr)
+                    }
+                }
+            }
+        }.resume()
+    }
     
     func downloadRecipies(ofType type: FoodCategory, onComplete: @escaping ([Recipe], Error?) -> Void) {
        
