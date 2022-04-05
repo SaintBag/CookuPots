@@ -42,7 +42,6 @@ class CategoriesVC: UICollectionViewController {
         collectionView.backgroundColor = .white
         
         navigationItem.title = "Cook U Pots"
-        
         // TODO: how to make large title or customize title
         
         collectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CollectionCellId)

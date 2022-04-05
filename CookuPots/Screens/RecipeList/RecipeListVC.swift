@@ -89,7 +89,7 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
         let id = recipe.id
         let title = recipe.title
         let image = recipe.image
-        let vc = RecipeDescriptionVC(recipe: Recipe.init(id: id, title: title, image: image), apiClient: apiClient, recipeID: recipe.id)
+        let vc = FoodController(recipe: Recipe.init(id: id, title: title, image: image), apiClient: apiClient)
         self.navigationController?.pushViewController(vc,animated: true)
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         

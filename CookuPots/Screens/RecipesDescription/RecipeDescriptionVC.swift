@@ -42,7 +42,7 @@ class RecipeDescriptionVC: UIViewController {
     
     let directionsLabel: UILabel = {
         let textLabel = UILabel()
-//        textLabel.text = "Heat 1T butter and 1T oil in a large skillet over medium heat. Then add cold rice (it separates easily, so it won't clump up during cooking), plus the additional grapeseed and coconut oil or butter. Raise heat to medium-high. Toss everything together and, again, spread the mixture out over the whole pan and press a bit into the bottom."
+        textLabel.text = "Heat 1T butter and 1T oil in a large skillet over medium heat. Then add cold rice (it separates easily, so it won't clump up during cooking), plus the additional grapeseed and coconut oil or butter. Raise heat to medium-high. Toss everything together and, again, spread the mixture out over the whole pan and press a bit into the bottom."
         textLabel.textAlignment = .left
         textLabel.lineBreakMode = .byWordWrapping
         textLabel.numberOfLines = 0
@@ -73,10 +73,8 @@ class RecipeDescriptionVC: UIViewController {
         addPhotoUrl()
         apiClient.downloadInstructions(forRecipeID: recipe.id) { [weak self] (instructions, error) in
             self?.instructions = instructions
-          
-            
+          print(instructions)
         }
-      
     }
     func addPhotoUrl() {
         let url = URL(string: recipe.image)
@@ -155,9 +153,10 @@ extension RecipeDescriptionVC: UITableViewDelegate, UITableViewDataSource {
 
 extension RecipeDescriptionVC {
     
+   
     
     func setupImageView() {
-        
+    
         imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true

@@ -60,7 +60,7 @@ struct Ingredients: Codable {
 struct Equipment: Codable {
     let id: Int
     let name: String
-    let temperature: [Temperature]
+    let temperature: [Temperature]?
 }
 
 struct Temperature: Codable {
@@ -72,12 +72,13 @@ class APIClient {
 
     let urlSession = URLSession.shared
     let spoonacularKey = "4414fe9b06284b2ba5ea75f7a9d9e9e1"
+    let spoonacularKeyTwo = "219684950d1544638955eb8a1658d081"
     
     func downloadInstructions(forRecipeID recipeID: Int, onComplete: @escaping ([Step], Error?) -> Void) {
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/\(recipeID)/analyzedInstructions"
        
-        let params = "?apiKey=\(spoonacularKey)"
+        let params = "?apiKey=\(spoonacularKeyTwo)"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
@@ -89,8 +90,10 @@ class APIClient {
                 } else if let data = data {
                 
                     do {
-                        let instructions = try JSONDecoder().decode(RecipeInstructionsResponse.self, from: data)
-                        onComplete(instructions.steps, nil)
+                        let instructions = try JSONDecoder().decode([RecipeInstructionsResponse].self, from: data)
+                        onComplete(instructions.first?.steps ?? [], nil)
+                        let ingredients = try JSONDecoder().decode([RecipeInstructionsResponse].self, from: data)
+                        onComplete(ingredients.first?.steps ?? [], nil)
                     
                     } catch let jsonErr {
                         onComplete([], jsonErr)
@@ -104,7 +107,7 @@ class APIClient {
        
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/complexSearch"
-        let params = "?apiKey=\(spoonacularKey)&type=\(type.apiValue)&instructionsRequired=true"
+        let params = "?apiKey=\(spoonacularKeyTwo)&type=\(type.apiValue)&instructionsRequired=true"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
