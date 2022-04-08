@@ -57,27 +57,29 @@ class CategoriesVC: UICollectionViewController {
                 
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5), heightDimension: .absolute(150)))
                 
-                item.contentInsets.top = 5
+                item.contentInsets.top = 2.5
                 item.contentInsets.trailing = 2.5
-                item.contentInsets.leading = 2.5
+//                item.contentInsets.leading = 2.5
+                
                 
                 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500)), subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                
+                section.contentInsets.top = 5
                 section.contentInsets.leading = 8
                 section.contentInsets.trailing = 8
-                section.contentInsets.leading = 8
+                section.contentInsets.bottom = 5
                 section.boundarySupplementaryItems = [
                     .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)), elementKind: categoryHeaderId, alignment: .topLeading)
                 ]
-                
                 return section
+                
             } else if sectionNumber == 1 {
                 
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
                 
+//                item.contentInsets.top = 5
                 item.contentInsets.trailing = 8
                 item.contentInsets.bottom = 16
                 item.contentInsets.leading = 8
@@ -85,7 +87,7 @@ class CategoriesVC: UICollectionViewController {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(250)), subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-                
+                section.contentInsets.top = 5
                 section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.boundarySupplementaryItems = [
                     .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)), elementKind: categoryHeaderId, alignment: .topLeading)
@@ -126,7 +128,6 @@ class CategoriesVC: UICollectionViewController {
                 
             }
         }
-        
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -143,11 +144,11 @@ class CategoriesVC: UICollectionViewController {
     //MARK: - Categories Header
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as? Header {
-            header.backgroundColor = .white
+            header.backgroundColor = #colorLiteral(red: 0.9403709769, green: 0.4984640479, blue: 0.6089645624, alpha: 1)
             if indexPath.section == 0 {
-                header.setTitle(title: "Categories")
+                header.setTitle(title: "CATEGORIES")
             } else if indexPath.section == 1 {
-                header.setTitle(title: "Recommended")
+                header.setTitle(title: "RECOMMENDED")
             }
             return header
         }
@@ -169,35 +170,6 @@ class CategoriesVC: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
-
-//MARK: - Categories Header View
-
-class Header: UICollectionReusableView {
-    
-    let label = UILabel()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubview(label)
-    }
-    
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        label.frame = bounds
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-    }
-    
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setTitle(title: String) {
-        label.text = title
-    }
 }
 
 //MARK: -  SEARCH BAR ADDED TO CategoriesVC
@@ -249,7 +221,6 @@ extension CategoriesVC {
         } else {
             navigationItem.rightBarButtonItem = nil
         }
-        
     }
     
     func search(schouldShow: Bool) {
@@ -276,40 +247,5 @@ extension CategoriesVC: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         search(schouldShow: false)
-    }
-}
-
-
-class CategoriesCell: UICollectionViewCell {
-    
-    var data: CustomData? {
-        didSet {
-            guard let data = data else { return }
-            categoriesImage.image = data.image
-        }
-    }
-    
-    fileprivate let categoriesImage: UIImageView = {
-        let imageView = UIImageView()
-        
-        imageView.image = UIImage(named: "breakfast")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        
-        return imageView
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.addSubview(categoriesImage)
-        categoriesImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        categoriesImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        categoriesImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        categoriesImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

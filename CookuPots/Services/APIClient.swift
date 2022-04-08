@@ -49,10 +49,10 @@ struct RecipeInstructionsResponse: Codable {
 struct Step: Codable {
     let number: Int
     let step: String
-    let ingredients: [Ingredients]
+    let ingredients: [Ingredient]
     let equipment: [Equipment]
 }
-struct Ingredients: Codable {
+struct Ingredient: Codable {
     let id: Int
     let name: String
 }
@@ -78,7 +78,7 @@ class APIClient {
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/\(recipeID)/analyzedInstructions"
        
-        let params = "?apiKey=\(spoonacularKeyTwo)"
+        let params = "?apiKey=\(spoonacularKey)"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
@@ -92,8 +92,6 @@ class APIClient {
                     do {
                         let instructions = try JSONDecoder().decode([RecipeInstructionsResponse].self, from: data)
                         onComplete(instructions.first?.steps ?? [], nil)
-                        let ingredients = try JSONDecoder().decode([RecipeInstructionsResponse].self, from: data)
-                        onComplete(ingredients.first?.steps ?? [], nil)
                     
                     } catch let jsonErr {
                         onComplete([], jsonErr)
@@ -107,7 +105,7 @@ class APIClient {
        
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/complexSearch"
-        let params = "?apiKey=\(spoonacularKeyTwo)&type=\(type.apiValue)&instructionsRequired=true"
+        let params = "?apiKey=\(spoonacularKey)&type=\(type.apiValue)&instructionsRequired=true"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
