@@ -8,7 +8,7 @@ import UIKit
 
 class Header: UICollectionReusableView {
     
-    let label = UILabel()
+ private lazy var label = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,7 +18,7 @@ class Header: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
         label.frame = bounds
-        label.font = UIFont(name: "AppleColorEmoji", size: 16)
+        label.font = UIFont(name: "HoeflerText-Regular", size: 15)
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 20)
     }

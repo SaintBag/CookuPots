@@ -14,30 +14,9 @@ class IngredientsHeader: UICollectionReusableView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .green // TODO: to remove
+//        imageView.backgroundColor = .green // TODO: to remove
         imageView.clipsToBounds = true
         return imageView
-    }()
-    
-    let imageTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "AppleColorEmoji", size: 15)
-        label.backgroundColor = .init(red: 105/105, green: 105/105, blue: 105/105, alpha: 0.7)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.setContentHuggingPriority(.defaultLow, for: .vertical) // TODO: not sure for what it is
-        return label
-    }()
-    
-    let ingredientsLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "HoeflerText-BlackItalic", size: 20)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.setContentHuggingPriority(.defaultLow, for: .vertical) // TODO: not sure for what it is
-        return label
     }()
     
     let ingredientsIcon: UIImageView = {
@@ -45,10 +24,31 @@ class IngredientsHeader: UICollectionReusableView {
         imageView.image = UIImage(named: "bag")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .green // TODO: to remove
+//        imageView.backgroundColor = .green // TODO: to remove
         imageView.clipsToBounds = true
         
         return imageView
+    }()
+    
+    private lazy var imageTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
+        label.backgroundColor = .init(red: 105/105, green: 105/105, blue: 105/105, alpha: 0.7)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.setContentHuggingPriority(.defaultLow, for: .vertical)
+        return label
+    }()
+    
+    private lazy var ingredientsLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "HoeflerText-BlackItalic", size: 20)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.setContentHuggingPriority(.defaultLow, for: .vertical)
+        return label
     }()
     
     override init(frame: CGRect) {
@@ -56,13 +56,20 @@ class IngredientsHeader: UICollectionReusableView {
         setupViews()
     }
     
-    func setTitle(title: String) {
+    func setImageTitleLabel(title: String) {
         imageTitleLabel.text = title
+    }
+    
+    func setTitle(title: String) {
         ingredientsLabel.text = title
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func setupViews() {
-        // TODO: Split it for separate func 
+        // TODO: Split it for separate func
         addSubview(recipePhoto)
         
         recipePhoto.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -89,8 +96,5 @@ class IngredientsHeader: UICollectionReusableView {
         imageTitleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         imageTitleLabel.bottomAnchor.constraint(equalTo: recipePhoto.bottomAnchor, constant: -10).isActive = true
         
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

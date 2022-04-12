@@ -10,9 +10,9 @@ import Kingfisher
 
 class StepsHeader: UICollectionReusableView {
     
-    let stepsLabel: UILabel = {
+    private lazy var stepsLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AppleColorEmoji", size: 20)
+        label.font = UIFont(name: "HoeflerText-BlackItalic", size: 20)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -20,12 +20,11 @@ class StepsHeader: UICollectionReusableView {
         return label
     }()
     
-    let stepsPhoto: UIImageView = {
+    fileprivate let stepsPhoto: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "list")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .green // TODO: to remove
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -35,12 +34,15 @@ class StepsHeader: UICollectionReusableView {
         setupViews()
     }
     
-    func setTitle(title: String) {
-        stepsLabel.text = title
-        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews() {
+    func setTitle(title: String) {
+        stepsLabel.text = title
+    }
+    
+    private func setupViews() {
         
         addSubview(stepsLabel)
         NSLayoutConstraint.activate([
@@ -57,9 +59,5 @@ class StepsHeader: UICollectionReusableView {
             stepsPhoto.leadingAnchor.constraint(equalTo: leadingAnchor),
             stepsPhoto.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

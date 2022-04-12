@@ -52,7 +52,7 @@ struct Step: Codable {
     let ingredients: [Ingredient]
     let equipment: [Equipment]
 }
-struct Ingredient: Codable {
+struct Ingredient: Codable, Hashable {
     let id: Int
     let name: String
 }
@@ -105,7 +105,7 @@ class APIClient {
        
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/complexSearch"
-        let params = "?apiKey=\(spoonacularKey)&type=\(type.apiValue)&instructionsRequired=true"
+        let params = "?apiKey=\(spoonacularKey)&type=\(type.apiValue)&instructionsRequired=true&offset=25&number=100"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }

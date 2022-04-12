@@ -15,9 +15,14 @@ class FoodController: UICollectionViewController {
     private var allIngredients: [Ingredient] = []
     private var instructions: [Step] = [] {
         didSet {
+            allIngredients.removeAll()
+            var duplicatedIngredients: [Ingredient] = []
             for instruction in instructions {
-                allIngredients.append(contentsOf: instruction.ingredients)
+                duplicatedIngredients.append(contentsOf: instruction.ingredients)
             }
+            let set = Set(duplicatedIngredients)
+            let ingredientsWithoutDuplicates = Array(set)
+            allIngredients = ingredientsWithoutDuplicates
             collectionView.reloadData()
         }
     }
@@ -63,11 +68,12 @@ class FoodController: UICollectionViewController {
             let stepsHeaderId = "stepsHeaderId"
             if sectionNumber == 0 {
 
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)) )
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)))
                 
                 item.contentInsets.top = 5
                 item.contentInsets.trailing = 2.5
                 item.contentInsets.leading = 2.5
+                
                 
                 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500)), subitems: [item])
@@ -91,7 +97,7 @@ class FoodController: UICollectionViewController {
                 item.contentInsets.bottom = 16
                 item.contentInsets.leading = 8
                 
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(250)), subitems: [item])
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(250)), subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
 //                section.orthogonalScrollingBehavior = .groupPagingCentered
@@ -103,10 +109,10 @@ class FoodController: UICollectionViewController {
             return nil
         }
     }
-    //TODO: something wrong with reciving data from ingredients
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            return 6 //allIngredients.count
+            return  allIngredients.count
         } else if section == 1 {
             return instructions.count
         } else { //if section == 2 {
@@ -127,9 +133,9 @@ class FoodController: UICollectionViewController {
                 let url = URL(string: recipe.image)
                 header.recipePhoto.kf.setImage(with: url)
                 header.backgroundColor = #colorLiteral(red: 0.9403709769, green: 0.4984640479, blue: 0.6089645624, alpha: 1)
-                header.imageTitleLabel.text = recipe.title.uppercased()
-                header.ingredientsLabel.text = "INGREDIENTS"
-                
+                let imageTitleLabel = recipe.title.uppercased()
+                header.setImageTitleLabel(title: imageTitleLabel)
+                header.setTitle(title: "INGREDIENTS")
                 return header
             }
             
@@ -148,25 +154,27 @@ class FoodController: UICollectionViewController {
         if indexPath.section == 0 {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ingCell, for: indexPath) as? IngCell else { return UICollectionViewCell() }
-            // TODO: - error
-            //            print(allIngredients[indexPath.row].name)
-//                        cell.ingredients = ingredients
-            cell.label.text = "allIngredients[indexPath.row].name"
+            
+            let ingredient = allIngredients[indexPath.row]
+            cell.setIngredientLabel(text: ingredient.name.capitalized)
+            cell.addToCartAction = {
+                print("selected \(ingredient.name)")
+                
+            }
             return cell
             
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: stepsCell , for: indexPath) as? StepsCell else { return UICollectionViewCell() }
             
-            cell.contentView.isUserInteractionEnabled = false
-            cell.instructions = instructions
             let stepNumber = instructions[indexPath.row].number
             cell.setTitle(title: "STEP: \(stepNumber)")
             let recipeText = instructions[indexPath.row].step
-            cell.label.text = recipeText
+            cell.setRecipeText(text: recipeText)
+            cell.sizeToFit()
             return cell
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -6,67 +6,58 @@
 //
 
 import UIKit
-import Kingfisher
 
 class StepsCell: UICollectionViewCell {
-    var instructions: [Step] = []
-    // TODO: Check possibilities to use one code for labels???
-    let stepLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.textColor = .black
-        label.backgroundColor = .gray
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "HoeflerText-Regular", size: 16)
-        label.setContentHuggingPriority(.defaultLow, for: .vertical)
-        return label
-    }()
     
-    let label: UILabel = {
+    private lazy var stepLabel: UILabel = label()
+    private lazy var recipeText: UILabel = label()
+    
+    private func label(withColor color: UIColor = .black) -> UILabel {
         let label = UILabel()
         label.numberOfLines = 0
-        label.textColor = .black
+        label.textColor = color
         label.backgroundColor = .gray
         label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "HoeflerText-Regular", size: 16)
-        label.setContentHuggingPriority(.defaultLow, for: .vertical)
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         return label
-    }()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .green
+//        backgroundColor = .green
         setUpViews()
-    }
-    
-    func setTitle(title: String) {
-        stepLabel.text = title
-        
-    }
-    
-    func setUpViews() {
-        
-        addSubview(stepLabel)
-        stepLabel.translatesAutoresizingMaskIntoConstraints = false
-        stepLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12).isActive = true
-        stepLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        stepLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        stepLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-        stepLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.topAnchor.constraint(equalTo: stepLabel.bottomAnchor, constant: 12).isActive = true
-        label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        label.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setTitle(title: String) {
+        stepLabel.text = title
+    }
+    
+    func setRecipeText(text: String) {
+        recipeText.text = text
+    }
+    
+    private func setUpViews() {
+        
+        contentView.addSubview(stepLabel)
+        stepLabel.translatesAutoresizingMaskIntoConstraints = false
+        stepLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12).isActive = true
+        stepLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        stepLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        stepLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        contentView.addSubview(recipeText)
+        recipeText.translatesAutoresizingMaskIntoConstraints = false
+        recipeText.topAnchor.constraint(equalTo: stepLabel.bottomAnchor, constant: 12).isActive = true
+        recipeText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        recipeText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        recipeText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    }
+
 }

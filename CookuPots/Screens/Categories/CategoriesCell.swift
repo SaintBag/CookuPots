@@ -30,19 +30,18 @@ class CategoriesCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-       
-    }
-        func setupViews() {
-            
-            contentView.addSubview(categoriesImage)
-            categoriesImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-            categoriesImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-            categoriesImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-            categoriesImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-            
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    private func setupViews() {
+        
+        contentView.addSubview(categoriesImage)
+        categoriesImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        categoriesImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        categoriesImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        categoriesImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
     }
 }
