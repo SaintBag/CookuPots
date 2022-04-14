@@ -8,9 +8,11 @@ import UIKit
 
 class ShoppingListCell: UITableViewCell {
     
-    let button: UIButton = {
+    var removeFromCartAction: (() -> Void)?
+    
+    private lazy var button: UIButton = {
             let btn = UIButton(type: .system)
-            btn.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
+            btn.setImage(UIImage(systemName: "trash"), for: .normal)
             btn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
             btn.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
             btn.becomeFirstResponder()
@@ -18,7 +20,11 @@ class ShoppingListCell: UITableViewCell {
             return btn
         }()
     
-    let ingredientsLabel: UILabel = {
+    @objc func didTapButton() {
+        removeFromCartAction?()
+    }
+    
+    private lazy var ingredientLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
@@ -29,39 +35,41 @@ class ShoppingListCell: UITableViewCell {
         return label
     }()
     
-    @objc func didTapButton() {
-        print("tapped")
-    }
   
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addSubview(button)
-        addSubview(ingredientsLabel)
         setButtonConstrains()
         setTitleLabelConstrains()
-        self.contentView.isUserInteractionEnabled = false
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-   
+    
+    func setIngredientLabel(text: String) {
+        ingredientLabel.text = text
+    }
+    
     
     func setButtonConstrains() {
+        
+        contentView.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        button.widthAnchor.constraint(equalTo: ingredientsLabel.heightAnchor, multiplier: 16/9).isActive = true
+        button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        button.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
     func setTitleLabelConstrains() {
-        ingredientsLabel.translatesAutoresizingMaskIntoConstraints = false
-        ingredientsLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        ingredientsLabel.leadingAnchor.constraint(equalTo: button.trailingAnchor, constant: 20).isActive = true
-        ingredientsLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        ingredientsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
+        
+        contentView.addSubview(ingredientLabel)
+        ingredientLabel.translatesAutoresizingMaskIntoConstraints = false
+        ingredientLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2).isActive = true
+        ingredientLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12).isActive = true
+        ingredientLabel.trailingAnchor.constraint(equalTo: button.leadingAnchor).isActive = true
+        ingredientLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2).isActive = true
         
     }
     

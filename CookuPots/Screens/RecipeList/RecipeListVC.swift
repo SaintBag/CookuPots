@@ -85,7 +85,6 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
         
         let recipeTitle = recipe.title
         title = recipeTitle
-        // TODO: not sure about parameters here
         let id = recipe.id
         let title = recipe.title
         let image = recipe.image
