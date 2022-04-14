@@ -11,6 +11,7 @@ import Kingfisher
 class FoodController: UICollectionViewController {
     
     private let apiClient: APIClient
+    private let dataController: DataController
     private let recipe: Recipe
     private var allIngredients: [Ingredient] = []
     private var instructions: [Step] = [] {
@@ -27,21 +28,18 @@ class FoodController: UICollectionViewController {
         }
     }
     
-    private let IngredientsCellId = "IngredientsCellId"
-    private let ImageCellId = "ImageCellId"
-    private let RecipeInstructionCellId = "RecipeInstructionCellId"
     private let sectionHeaderId = "sectionHeaderId"
     private let sectionId = "sectionId"
     private let stepsId = "stepsId"
     private let stepsHeaderId = "stepsHeaderId"
-    
     private let stepsCell = "stepsCell"
     private let ingCell = "ingCell"
     
     
-    init(recipe: Recipe, apiClient: APIClient) {
+    init(recipe: Recipe, apiClient: APIClient, dataController: DataController ) {
         self.recipe = recipe
         self.apiClient = apiClient
+        self.dataController = dataController
         super.init(collectionViewLayout: FoodController.createViewLayout())
     }
     
@@ -54,6 +52,11 @@ class FoodController: UICollectionViewController {
             
         }
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func registerCells() {
         collectionView.register(IngCell.self, forCellWithReuseIdentifier: ingCell)
         collectionView.register(StepsCell.self, forCellWithReuseIdentifier: stepsCell)
@@ -67,8 +70,8 @@ class FoodController: UICollectionViewController {
             let sectionHeaderId = "sectionHeaderId"
             let stepsHeaderId = "stepsHeaderId"
             if sectionNumber == 0 {
-
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)))
+                
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)))
                 
                 item.contentInsets.top = 5
                 item.contentInsets.trailing = 2.5
@@ -100,7 +103,7 @@ class FoodController: UICollectionViewController {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(250)), subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
-//                section.orthogonalScrollingBehavior = .groupPagingCentered
+                //                section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.boundarySupplementaryItems = [
                     .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)), elementKind: stepsHeaderId, alignment: .topLeading)
                 ]
@@ -109,7 +112,7 @@ class FoodController: UICollectionViewController {
             return nil
         }
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             return  allIngredients.count
@@ -158,8 +161,17 @@ class FoodController: UICollectionViewController {
             let ingredient = allIngredients[indexPath.row]
             cell.setIngredientLabel(text: ingredient.name.capitalized)
             cell.addToCartAction = {
+                //TODO: 
                 print("selected \(ingredient.name)")
-                
+                do {
+                    try self.dataController.insertIngredient(ingredient: ingredient)
+//                    try self.dataController.saveIngredients(ingredients: ingredient)
+                } catch(let error) {
+                    print(error)
+                }
+                let dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
+                let vc = ShoppingListVC(dataController: dataController)
+                self.navigationController?.pushViewController(vc,animated: true)
             }
             return cell
             
@@ -173,10 +185,6 @@ class FoodController: UICollectionViewController {
             cell.sizeToFit()
             return cell
         }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 

@@ -14,7 +14,6 @@ class IngCell: UICollectionViewCell {
     private lazy var button: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         btn.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         return btn
     }()
@@ -38,7 +37,6 @@ class IngCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        backgroundColor = .green
         setUpViews()
     }
     
@@ -55,17 +53,17 @@ class IngCell: UICollectionViewCell {
         contentView.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 40).isActive = true
         button.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
         // constraints to contentView
         contentView.addSubview(ingredientLabel)
         ingredientLabel.translatesAutoresizingMaskIntoConstraints = false
-        ingredientLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        ingredientLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2).isActive = true
         ingredientLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12).isActive = true
         ingredientLabel.trailingAnchor.constraint(equalTo: button.leadingAnchor).isActive = true
-        ingredientLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        ingredientLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2).isActive = true
         
     }
 }

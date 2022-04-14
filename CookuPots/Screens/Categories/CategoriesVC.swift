@@ -10,8 +10,6 @@ import Kingfisher
 
 struct CustomData {
     var image: UIImage
-    // var url: String example
-    // var title: String example
 }
 
 class CategoriesVC: UICollectionViewController {
@@ -23,14 +21,15 @@ class CategoriesVC: UICollectionViewController {
         CustomData.init(image: #imageLiteral(resourceName: "desserts"))
     ]
     
-    let apiClient = APIClient()
+    let apiClient: APIClient
     let searchBar = UISearchBar()
     static let categoryHeaderId = "categoryHeaderId"
     let headerId = "headerId"
     let CollectionCellId = "CollectionCellId"
     
     
-    init() {
+    init(apiClient: APIClient) {
+        self.apiClient = apiClient
         super.init(collectionViewLayout: CategoriesVC.createLayout())
     }
     
@@ -59,10 +58,7 @@ class CategoriesVC: UICollectionViewController {
                 
                 item.contentInsets.top = 2.5
                 item.contentInsets.trailing = 2.5
-//                item.contentInsets.leading = 2.5
-                
-                
-                
+
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500)), subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
@@ -79,7 +75,6 @@ class CategoriesVC: UICollectionViewController {
                 
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
                 
-//                item.contentInsets.top = 5
                 item.contentInsets.trailing = 8
                 item.contentInsets.bottom = 16
                 item.contentInsets.leading = 8
@@ -104,25 +99,26 @@ class CategoriesVC: UICollectionViewController {
         
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let vc = RecipeListVC(apiClient: APIClient(), foodType: .breakfast)
+                let vc = RecipeListVC(apiClient: apiClient, foodType: .breakfast)
                 vc.title = "BREAKFAST"
                 self.navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 1 {
-                let vc = RecipeListVC(apiClient: APIClient(), foodType: .mainCourse)
+                let vc = RecipeListVC(apiClient: apiClient, foodType: .mainCourse)
                 vc.title = "DINNER"
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 2 {
-                let vc = RecipeListVC(apiClient: APIClient(), foodType: .soup)
+                let vc = RecipeListVC(apiClient: apiClient, foodType: .soup)
                 navigationController?.pushViewController(vc, animated: true)
                 vc.title = "SOUP"
                 
             } else {
-                let vc = RecipeListVC(apiClient: APIClient(), foodType: .dessert)
+                let vc = RecipeListVC(apiClient: apiClient, foodType: .dessert)
                 navigationController?.pushViewController(vc, animated: true)
                 vc.title = "DESSERT"
             }
+            //TODO: Recommended
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 
@@ -158,6 +154,23 @@ class CategoriesVC: UICollectionViewController {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionCellId , for: indexPath) as! CategoriesCell
         cell.data = self.data[indexPath.row]
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                cell.setCategoriesNameLabel(title: "BREAKFAST")
+            } else if indexPath.row == 1 {
+                cell.setCategoriesNameLabel(title: "DINNER")
+            } else if indexPath.row == 2 {
+                cell.setCategoriesNameLabel(title: "SOUPS")
+            } else if indexPath.row == 3 {
+                cell.setCategoriesNameLabel(title: "DESSERTS")
+                
+            } else if indexPath.section == 1 {
+                if indexPath.row == 0 {
+                    
+                }
+            }
+        }
+        
         return cell
     }
     

@@ -8,24 +8,37 @@
 import UIKit
 
 class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-  
-    //    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    //    private var models = [ShoppingList]()
+
     let tableView: UITableView = {
     let table = UITableView()
         table.register(ShoppingListCell.self, forCellReuseIdentifier: "cellId")
         return table
     }()
     
-    //TODO: init
+    private var savedIngredients: [Ingredient] = [] {
+        didSet {
+            tableView.reloadData()
+            
+        }
+    }
+    private let dataController: DataController
+   
     
-    
+    init(dataController: DataController) {
+        self.dataController = dataController
+        super.init(nibName: nil, bundle: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Shopping List"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
         configureTableView()
+        do {
+            savedIngredients = try dataController.fetchIngredients()
+        } catch(let error) {
+            print(error)
+        }
     }
     
     @objc func didTapAdd() {
@@ -36,10 +49,13 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else {
                 return
             }
-            
-            
+           
         }))
         present(alert, animated: true)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func configureTableView() {
@@ -57,21 +73,18 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10 //TODO: return added ingredients from choosen ingredients
+        return savedIngredients.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        cell.textLabel?.text = "ingredient" //TODO: name of choosen ingredients
+        cell.textLabel?.text = savedIngredients[indexPath.row].name
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // TODO: delete from list
-        // TODO: mark as done
-        // TODO: make it editable? not sure if this is nessesary
-       
     }
 }

@@ -16,7 +16,7 @@ extension SHIngredient {
         return NSFetchRequest<SHIngredient>(entityName: "SHIngredient")
     }
 
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
     @NSManaged public var id: Int16
 
 }
