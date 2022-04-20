@@ -10,6 +10,7 @@ import UIKit
 class IngCell: UICollectionViewCell {
     
     var addToCartAction: (() -> Void)?
+    var removeFromCartAction: (() -> Void)?
     
     private lazy var button: UIButton = {
         let btn = UIButton(type: .system)
@@ -20,11 +21,18 @@ class IngCell: UICollectionViewCell {
     
     @objc func didTapButton() {
         addToCartAction?()
+        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.addTarget(self, action: #selector(didTapButton2), for: .touchUpInside)
+        
+    }
+    
+    @objc func didTapButton2() {
+        removeFromCartAction?()
+        button.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
     }
     
     private lazy var ingredientLabel: UILabel = {
         let label = UILabel()
-        //        label.backgroundColor = .gray
         label.text = "Here you will find ingredients soon..."
         label.font = UIFont(name: "HoeflerText-Regular", size: 16)
         label.textAlignment = .left
@@ -56,8 +64,7 @@ class IngCell: UICollectionViewCell {
         button.widthAnchor.constraint(equalToConstant: 40).isActive = true
         button.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
         button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        
-        // constraints to contentView
+
         contentView.addSubview(ingredientLabel)
         ingredientLabel.translatesAutoresizingMaskIntoConstraints = false
         ingredientLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2).isActive = true

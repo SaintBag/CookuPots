@@ -2,7 +2,7 @@
 //  SHIngredient+CoreDataClass.swift
 //  CookuPots
 //
-//  Created by Sebulla on 13/04/2022.
+//  Created by Sebulla on 20/04/2022.
 //
 //
 

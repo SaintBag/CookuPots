@@ -11,14 +11,11 @@ class ShoppingListCell: UITableViewCell {
     var removeFromCartAction: (() -> Void)?
     
     private lazy var button: UIButton = {
-            let btn = UIButton(type: .system)
-            btn.setImage(UIImage(systemName: "trash"), for: .normal)
-            btn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
-            btn.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-            btn.becomeFirstResponder()
-            btn.isUserInteractionEnabled = false
-            return btn
-        }()
+        let btn = UIButton(type: .system)
+        btn.setImage(UIImage(systemName: "trash"), for: .normal)
+        btn.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        return btn
+    }()
     
     @objc func didTapButton() {
         removeFromCartAction?()
@@ -35,7 +32,6 @@ class ShoppingListCell: UITableViewCell {
         return label
     }()
     
-  
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

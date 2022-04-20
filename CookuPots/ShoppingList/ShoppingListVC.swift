@@ -6,23 +6,17 @@
 //
 
 import UIKit
+import CoreData
 
 class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    let tableView: UITableView = {
-    let table = UITableView()
+    
+    private let dataController: DataController
+    
+    private lazy var tableView: UITableView = {
+        let table = UITableView()
         table.register(ShoppingListCell.self, forCellReuseIdentifier: "cellId")
         return table
     }()
-    
-    private var savedIngredients: [Ingredient] = [] {
-        didSet {
-            tableView.reloadData()
-            
-        }
-    }
-    private let dataController: DataController
-   
     
     init(dataController: DataController) {
         self.dataController = dataController
@@ -34,12 +28,26 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         title = "Shopping List"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
         configureTableView()
+        performFetch()
+    }
+    
+    private func performFetch() {
         do {
-            savedIngredients = try dataController.fetchIngredients()
-        } catch(let error) {
-            print(error)
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<SHIngredient> = {
+        
+        let fetchRequest: NSFetchRequest<SHIngredient> = SHIngredient.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
+    }()
     
     @objc func didTapAdd() {
         let alert = UIAlertController(title: "New Item", message: "Enter new item", preferredStyle: .alert)
@@ -49,7 +57,7 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else {
                 return
             }
-           
+            
         }))
         present(alert, animated: true)
     }
@@ -59,7 +67,6 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func configureTableView() {
-        
         view.addSubview(tableView)
         setTableViewDelegates()
         tableView.pinView(to: view)
@@ -72,19 +79,75 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return fetchedResultsController.sections!.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return savedIngredients.count
+        guard let sections = fetchedResultsController.sections else {
+            fatalError("No sections in fetchedResultsController")
+        }
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        cell.textLabel?.text = savedIngredients[indexPath.row].name
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as? ShoppingListCell else { return UITableViewCell() }
+        
+        let object = self.fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = object.name
+        cell.removeFromCartAction = {
+            
+            print("try to remove \(object.name)")
+            do {
+                try self.dataController.delete(ingredient: object)
+                
+            } catch(let error) {
+                print(error)
+            }
+        }
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        // TODO: delete from list
+}
+
+extension ShoppingListVC: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
     }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .move:
+            break
+        case .update:
+            break
+        @unknown default:
+            fatalError()
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            tableView.reloadRows(at: [indexPath!], with: .fade)
+        case .move:
+            tableView.moveRow(at: indexPath!, to: newIndexPath!)
+        @unknown default:
+            fatalError()
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
 }

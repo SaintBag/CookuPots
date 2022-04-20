@@ -27,7 +27,6 @@ class StepsCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        backgroundColor = .green
         setUpViews()
     }
     

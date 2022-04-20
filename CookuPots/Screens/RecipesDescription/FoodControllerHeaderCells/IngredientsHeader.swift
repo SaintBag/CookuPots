@@ -14,17 +14,15 @@ class IngredientsHeader: UICollectionReusableView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-//        imageView.backgroundColor = .green // TODO: to remove
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    let ingredientsIcon: UIImageView = {
+    fileprivate let ingredientsIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "bag")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-//        imageView.backgroundColor = .green // TODO: to remove
         imageView.clipsToBounds = true
         
         return imageView
@@ -69,9 +67,8 @@ class IngredientsHeader: UICollectionReusableView {
     }
     
     func setupViews() {
-        // TODO: Split it for separate func
+
         addSubview(recipePhoto)
-        
         recipePhoto.topAnchor.constraint(equalTo: topAnchor).isActive = true
         recipePhoto.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         recipePhoto.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true

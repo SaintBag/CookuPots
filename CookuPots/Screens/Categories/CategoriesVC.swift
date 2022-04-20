@@ -40,8 +40,8 @@ class CategoriesVC: UICollectionViewController {
         
         collectionView.backgroundColor = .white
         
-        navigationItem.title = "Cook U Pots"
-        // TODO: how to make large title or customize title
+//        navigationItem.title = "Cook U Pots"
+//        // TODO: how to make large title or customize title
         
         collectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CollectionCellId)
         collectionView.register(Header.self, forSupplementaryViewOfKind: CategoriesVC.categoryHeaderId, withReuseIdentifier: headerId)
@@ -191,16 +191,16 @@ extension CategoriesVC {
     func configureUI() {
         view.backgroundColor = .white
         
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navBarAppearance.backgroundColor = .red
-        navigationController?.navigationBar.standardAppearance = navBarAppearance
-        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = .white
-        
+//        let navBarAppearance = UINavigationBarAppearance()
+//        navBarAppearance.configureWithOpaqueBackground()
+//        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+//        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+//        navBarAppearance.backgroundColor = .red
+//        navigationController?.navigationBar.standardAppearance = navBarAppearance
+//        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+//        navigationController?.navigationBar.prefersLargeTitles = true
+//        navigationController?.navigationBar.tintColor = .white
+//        
         searchBarSetup()
         showSearchBarButton(schouldShow: true)
     }
@@ -216,13 +216,7 @@ extension CategoriesVC {
         searchBar.searchTextField.textColor = .black
         
     }
-    
-    @objc func handleShowSearch() {
-        search(schouldShow: true)
-        searchBar.becomeFirstResponder()
-        
-    }
-    
+   
     func showSearchBarButton(schouldShow: Bool) {
         if schouldShow {
             navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -233,6 +227,12 @@ extension CategoriesVC {
         } else {
             navigationItem.rightBarButtonItem = nil
         }
+    }
+    
+    @objc func handleShowSearch() {
+        search(schouldShow: true)
+        searchBar.becomeFirstResponder()
+        
     }
     
     func search(schouldShow: Bool) {

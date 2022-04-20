@@ -13,9 +13,12 @@ class RecipeListVC: UIViewController {
     private lazy var tableView = UITableView()
     private var recipes: [Recipe] = [] {
         didSet {
-            tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
+    
     struct CellID {
         static let RecipeCell = "RecipeCell"
     }
@@ -67,7 +70,6 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CellID.RecipeCell) as! RecipeCell
-        
         let recipe = recipes[indexPath.row]
         cell.recipeTitleLabel.text = recipe.title
         
@@ -88,6 +90,7 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
         let id = recipe.id
         let title = recipe.title
         let image = recipe.image
+        
         let dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
         let vc = FoodController(recipe: Recipe.init(id: id, title: title, image: image), apiClient: apiClient, dataController: dataController)
         self.navigationController?.pushViewController(vc,animated: true)

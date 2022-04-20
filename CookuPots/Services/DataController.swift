@@ -8,26 +8,32 @@
 import UIKit
 import CoreData
 
-class DataController {
+class DataController: NSObject {
+    
+    static let shared = DataController()
+    private override init() {
+        
+    }
     
     var context: NSManagedObjectContext {
-        return self.persistentContainer.viewContext
+//        persistentContainer.viewContext.refreshAllObjects()
+        return persistentContainer.viewContext
     }
     
     let persistentContainer = NSPersistentContainer(name: "Model")
     
     func initalizeStack(completion: @escaping () -> Void) {
         let description = NSPersistentStoreDescription()
-        description.type = NSInMemoryStoreType // set desired type
+        description.type = NSSQLiteStoreType // set desired type
         
-        if description.type == NSSQLiteStoreType || description.type == NSBinaryStoreType {
+        if description.type == NSSQLiteStoreType { //|| description.type == NSBinaryStoreType {
             // for persistence on local storage we need to set url
             description.url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
                 .first?.appendingPathComponent("database")
         }
-        self.persistentContainer.persistentStoreDescriptions = [description]
-        self.persistentContainer.loadPersistentStores { description, error in
-           
+        persistentContainer.persistentStoreDescriptions = [description]
+        persistentContainer.loadPersistentStores { description, error in
+            
             if let error = error {
                 print("could not load store \(error.localizedDescription)")
                 return
@@ -46,12 +52,17 @@ class DataController {
         try self.context.save()
     }
     
-    func fetchIngredients() throws -> [Ingredient] {
-        let ingredients = try self.context.fetch(SHIngredient.fetchRequest() as NSFetchRequest<SHIngredient>)
-        return ingredients.map {
-            let id = $0.id
-            let name = $0.name
-            return Ingredient(id: Int(id), name: name)
+    func delete(ingredient: SHIngredient) throws {
+        let fetchRequest: NSFetchRequest<SHIngredient> = SHIngredient.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", ingredient.name) //TODO: try with id
+        do {
+            let objects = try context.fetch(fetchRequest)
+            for object in objects {
+                context.delete(object)
+            }
+            try context.save()
+        } catch _ {
+            fatalError()
         }
     }
 }

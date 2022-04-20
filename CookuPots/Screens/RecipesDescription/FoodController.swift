@@ -77,10 +77,7 @@ class FoodController: UICollectionViewController {
                 item.contentInsets.trailing = 2.5
                 item.contentInsets.leading = 2.5
                 
-                
-                
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500)), subitems: [item])
-                
                 
                 let section = NSCollectionLayoutSection(group: group)
                 
@@ -118,10 +115,9 @@ class FoodController: UICollectionViewController {
             return  allIngredients.count
         } else if section == 1 {
             return instructions.count
-        } else { //if section == 2 {
+        } else {
             return 2
         }
-        //        return 3
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -165,13 +161,10 @@ class FoodController: UICollectionViewController {
                 print("selected \(ingredient.name)")
                 do {
                     try self.dataController.insertIngredient(ingredient: ingredient)
-//                    try self.dataController.saveIngredients(ingredients: ingredient)
+                    
                 } catch(let error) {
                     print(error)
                 }
-                let dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
-                let vc = ShoppingListVC(dataController: dataController)
-                self.navigationController?.pushViewController(vc,animated: true)
             }
             return cell
             
