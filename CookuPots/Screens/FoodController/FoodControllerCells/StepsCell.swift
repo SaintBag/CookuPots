@@ -9,21 +9,32 @@ import UIKit
 
 class StepsCell: UICollectionViewCell {
     
-    private lazy var stepLabel: UILabel = label()
+    
     private lazy var recipeText: UILabel = label()
     
-    private func label(withColor color: UIColor = .black) -> UILabel {
+    private func label(withColor color: UIColor = .systemPurple) -> UILabel {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = color
-        label.backgroundColor = .gray
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "HoeflerText-Regular", size: 16)
+        label.font = UIFont(name: "GillSans", size: 16)
         label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         return label
     }
+    
+    private lazy var stepLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textColor = .systemPurple
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "GillSans", size: 20)
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

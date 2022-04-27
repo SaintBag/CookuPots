@@ -26,7 +26,7 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Shopping List"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
+        setupAddButton()
         configureTableView()
         performFetch()
     }
@@ -49,15 +49,20 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         return fetchedResultsController
     }()
     
+    private func setupAddButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
+    }
+    
     @objc func didTapAdd() {
-        let alert = UIAlertController(title: "New Item", message: "Enter new item", preferredStyle: .alert)
+        
+        let alert = UIAlertController(title: "Add ingredient", message: "Add what else do you need", preferredStyle: .alert)
         
         alert.addTextField(configurationHandler: nil)
-        alert.addAction(UIAlertAction(title: "Submit", style: .cancel, handler: { _ in
+        alert.addAction(UIAlertAction(title: "Submit", style: .cancel, handler: { [weak self] _ in
             guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else {
                 return
             }
-            
+            self?.dataController.createIngredient(name: text)
         }))
         present(alert, animated: true)
     }
@@ -70,6 +75,7 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.addSubview(tableView)
         setTableViewDelegates()
         tableView.pinView(to: view)
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
     }
     
@@ -78,7 +84,28 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         
     }
-    
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        tableView.deselectRow(at: indexPath, animated: true)
+    //        let sheet = UIAlertController(title: "Edit", message: nil, preferredStyle: .actionSheet)
+    //        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    //        sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
+    //            let element = SHIngredient(context: self.dataController.context)
+    //
+    //            let alert = UIAlertController(title: "Edit", message: "Edit your notes", preferredStyle: .alert)
+    //            alert.addTextField(configurationHandler: nil)
+    //            alert.textFields?.first?.text = element.name
+    //            alert.addAction(UIAlertAction(title: "Save", style: .cancel, handler: {[weak self] _ in
+    //                guard let field = alert.textFields?.first, let edditedText = field.text, !edditedText.isEmpty else {
+    //                    return
+    //                }
+    //                self?.dataController.createIngredient(name: edditedText)
+    //            }))
+    //            self.present(alert, animated: true)
+    //        }))
+    //
+    //        present(sheet, animated: true)
+    //    }
+    //
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return fetchedResultsController.sections!.count
     }
@@ -88,9 +115,24 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             fatalError("No sections in fetchedResultsController")
         }
         let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
+        if sectionInfo.numberOfObjects > 0 {
+            
+            return sectionInfo.numberOfObjects
+            
+        } else {
+             
+            let image = UIImage(named: "CookUPots")
+            let imageForEmptyRows = UIImageView(image: image)
+//            let imageForEmptyRows = UIImageView(image: ba)
+//            imageForEmptyRows.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+            imageForEmptyRows.contentMode = .scaleAspectFit
+            tableView.backgroundView = imageForEmptyRows
+            tableView.separatorStyle = .none
+            
+            return 0
+        }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as? ShoppingListCell else { return UITableViewCell() }
@@ -112,6 +154,7 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 }
 
 extension ShoppingListVC: NSFetchedResultsControllerDelegate {
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -132,6 +175,7 @@ extension ShoppingListVC: NSFetchedResultsControllerDelegate {
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
         switch type {
         case .insert:
             tableView.insertRows(at: [newIndexPath!], with: .fade)

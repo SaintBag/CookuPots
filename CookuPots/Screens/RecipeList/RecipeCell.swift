@@ -57,6 +57,7 @@ class RecipeCell: UITableViewCell {
             recipeImageView.widthAnchor.constraint(equalTo: recipeTitleLabel.heightAnchor, multiplier: 16/9)
         ])
     }
+    
     func setTitleLabelConstrains() {
         recipeTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         recipeTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -65,5 +66,4 @@ class RecipeCell: UITableViewCell {
         recipeTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
         
     }
-    
 }

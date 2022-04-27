@@ -12,21 +12,13 @@ class StepsHeader: UICollectionReusableView {
     
     private lazy var stepsLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HoeflerText-BlackItalic", size: 20)
+        label.font = UIFont(name: "GillSans", size: 25)
+        label.textColor = .systemPurple
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.setContentHuggingPriority(.defaultLow, for: .vertical)
         return label
-    }()
-    
-    fileprivate let stepsPhoto: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "list")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -50,14 +42,6 @@ class StepsHeader: UICollectionReusableView {
             stepsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 12),
             stepsLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             stepsLabel.heightAnchor.constraint(equalTo: heightAnchor),
-        ])
-        
-        addSubview(stepsPhoto)
-        NSLayoutConstraint.activate([
-            stepsPhoto.widthAnchor.constraint(equalToConstant: 50),
-            stepsPhoto.heightAnchor.constraint(equalToConstant: 50),
-            stepsPhoto.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stepsPhoto.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }

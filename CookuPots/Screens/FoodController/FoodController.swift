@@ -12,7 +12,7 @@ class FoodController: UICollectionViewController {
     
     private let apiClient: APIClient
     private let dataController: DataController
-    private let recipe: Recipe
+    private let recipe: RecipePresentable
     private var allIngredients: [Ingredient] = []
     private var instructions: [Step] = [] {
         didSet {
@@ -36,20 +36,23 @@ class FoodController: UICollectionViewController {
     private let ingCell = "ingCell"
     
     
-    init(recipe: Recipe, apiClient: APIClient, dataController: DataController ) {
+    init(recipe: RecipePresentable, instructions: [Step]?, apiClient: APIClient, dataController: DataController ) {
         self.recipe = recipe
         self.apiClient = apiClient
         self.dataController = dataController
+        self.instructions = instructions ?? []
         super.init(collectionViewLayout: FoodController.createViewLayout())
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUI()
         collectionView.backgroundColor = .white
         registerCells()
-        apiClient.downloadInstructions(forRecipeID: recipe.id) { [weak self] (instructions, error) in
-            self?.instructions = instructions
-            
+        if instructions.isEmpty {
+            apiClient.downloadInstructions(forRecipeID: recipe.id) { [weak self] (instructions, error) in
+                self?.instructions = instructions
+            }
         }
     }
     
@@ -80,10 +83,8 @@ class FoodController: UICollectionViewController {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500)), subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 8, bottom: 20, trailing: 8)
                 
-                section.contentInsets.leading = 8
-                section.contentInsets.trailing = 8
-                section.contentInsets.leading = 8
                 section.boundarySupplementaryItems = [
                     .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(300)), elementKind: sectionHeaderId, alignment: .topLeading)
                 ]
@@ -91,18 +92,16 @@ class FoodController: UICollectionViewController {
                 return section
                 
             } else if sectionNumber == 1 {
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
                 
-                item.contentInsets.trailing = 8
-                item.contentInsets.bottom = 16
-                item.contentInsets.leading = 8
-                
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(250)), subitems: [item])
-                
+                let estimatedHeight = CGFloat(100)
+                let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(estimatedHeight))
+                let item = NSCollectionLayoutItem(layoutSize: layoutSize)
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: layoutSize, subitem: item, count: 1)
                 let section = NSCollectionLayoutSection(group: group)
-                //                section.orthogonalScrollingBehavior = .groupPagingCentered
+                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+                section.interGroupSpacing = 10
                 section.boundarySupplementaryItems = [
-                    .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)), elementKind: stepsHeaderId, alignment: .topLeading)
+                    .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: stepsHeaderId, alignment: .topLeading)
                 ]
                 return section
             }
@@ -131,7 +130,7 @@ class FoodController: UICollectionViewController {
                 
                 let url = URL(string: recipe.image)
                 header.recipePhoto.kf.setImage(with: url)
-                header.backgroundColor = #colorLiteral(red: 0.9403709769, green: 0.4984640479, blue: 0.6089645624, alpha: 1)
+                
                 let imageTitleLabel = recipe.title.uppercased()
                 header.setImageTitleLabel(title: imageTitleLabel)
                 header.setTitle(title: "INGREDIENTS")
@@ -141,7 +140,6 @@ class FoodController: UICollectionViewController {
         } else if indexPath.section == 1 {
             if let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: stepsId, for: indexPath) as? StepsHeader {
                 
-                header.backgroundColor = #colorLiteral(red: 0.9403709769, green: 0.4984640479, blue: 0.6089645624, alpha: 1)
                 header.setTitle(title: "RECIPE STEPS")
                 return header
             }
@@ -157,8 +155,6 @@ class FoodController: UICollectionViewController {
             let ingredient = allIngredients[indexPath.row]
             cell.setIngredientLabel(text: ingredient.name.capitalized)
             cell.addToCartAction = {
-                //TODO: 
-                print("selected \(ingredient.name)")
                 do {
                     try self.dataController.insertIngredient(ingredient: ingredient)
                     
@@ -181,3 +177,21 @@ class FoodController: UICollectionViewController {
     }
 }
 
+extension FoodController {
+    
+    func configureUI() {
+        rightBarButtonSetup()
+    }
+    
+    func rightBarButtonSetup() {
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Shopping List", style: .plain, target: self, action: #selector(moveToShoppingList))
+        
+    }
+    @objc func moveToShoppingList() {
+        
+        let vc = ShoppingListVC(dataController: DataController.shared)
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+}

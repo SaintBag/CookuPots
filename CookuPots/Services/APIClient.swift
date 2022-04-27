@@ -34,23 +34,39 @@ struct RecipiesResponse: Codable {
     let number: Int
     let totalResults: Int
 }
+protocol RecipePresentable {
+    var id: Int { get }
+    var title: String { get }
+    var image: String { get }
+}
 
-struct Recipe: Codable {
+struct Recipe: Codable, RecipePresentable {
     let id: Int
     let title: String
     let image: String
 }
-// TODO: How to use 
+
 struct RecipeInstructionsResponse: Codable {
     let name: String 
     let steps: [Step]
+}
+
+struct RandomRecipe: Codable, RecipePresentable {
+    let id: Int
+    let title: String
+    let image: String
+    let analyzedInstructions: [RecipeInstructionsResponse]
+}
+
+struct RandomRecipesResponse: Codable {
+    let recipes: [RandomRecipe]
 }
 
 struct Step: Codable {
     let number: Int
     let step: String
     let ingredients: [Ingredient]
-    let equipment: [Equipment]
+    let equipment: [Equipment]?
 }
 struct Ingredient: Codable, Hashable {
     let id: Int
@@ -78,7 +94,7 @@ class APIClient {
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/\(recipeID)/analyzedInstructions"
        
-        let params = "?apiKey=\(spoonacularKey)"
+        let params = "?apiKey=\(spoonacularKeyTwo)"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
@@ -105,7 +121,7 @@ class APIClient {
        
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/complexSearch"
-        let params = "?apiKey=\(spoonacularKey)&type=\(type.apiValue)&instructionsRequired=true&offset=25&number=100"
+        let params = "?apiKey=\(spoonacularKeyTwo)&type=\(type.apiValue)&instructionsRequired=true&offset=25&number=100"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
@@ -119,6 +135,60 @@ class APIClient {
                     do {
                         let recipe = try JSONDecoder().decode(RecipiesResponse.self, from: data)
                         onComplete(recipe.results, nil)
+                    
+                    } catch let jsonErr {
+                        onComplete([], jsonErr)
+                    }
+                }
+            }
+        }.resume()
+    }
+    
+//    func downloadRecipiesInformacion(forRecipeID recipeID: Int, onComplete: @escaping ([Recipe], Error?) -> Void) {
+//       
+//        let baseURL = "https://api.spoonacular.com"
+//        let endpoint = "/recipes/information"
+//        let params = "?apiKey=\(spoonacularKeyTwo)"
+//        guard let url = URL(string: baseURL + endpoint + params) else {
+//            return
+//        }
+//        let request = URLRequest(url: url)
+//        urlSession.dataTask(with: request) { (data, response, error) in
+//            DispatchQueue.main.async {
+//                if let error = error {
+//                    onComplete([], error)
+//                } else if let data = data {
+//                
+//                    do {
+//                        let recipe = try JSONDecoder().decode(RecipiesResponse.self, from: data)
+//                        onComplete(recipe.results, nil)
+//                    
+//                    } catch let jsonErr {
+//                        onComplete([], jsonErr)
+//                    }
+//                }
+//            }
+//        }.resume()
+//    }
+    
+    func downloadRandomRecipies(onComplete: @escaping ([RandomRecipe], Error?) -> Void) {
+       
+        let baseURL = "https://api.spoonacular.com"
+        let endpoint = "/recipes/random"
+        let params = "?apiKey=\(spoonacularKeyTwo)&number=5"
+        guard let url = URL(string: baseURL + endpoint + params) else {
+            return
+        }
+        let request = URLRequest(url: url)
+        urlSession.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    onComplete([], error)
+                } else if let data = data {
+                
+                    do {
+                        let result = try JSONDecoder().decode(RandomRecipesResponse.self, from: data)
+                        onComplete(result.recipes, nil)
                     
                     } catch let jsonErr {
                         onComplete([], jsonErr)

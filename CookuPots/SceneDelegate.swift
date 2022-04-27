@@ -16,46 +16,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let dataController = appDelegate.dataController
+
+        UINavigationBar.appearance().barTintColor = .systemPurple //TODO: Change to another color
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.windowScene = windowScene
+        window?.rootViewController = createTabBar()
+        window?.makeKeyAndVisible()
         dataController.initalizeStack {
             
         }
-        let navController = UINavigationController(rootViewController: createTabBar())
-        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        window?.windowScene = windowScene
-        window?.rootViewController = navController
-        window?.makeKeyAndVisible()
+        
     }
     
     func createHomeNavigationController() -> UINavigationController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let apiClient = appDelegate.apiClient
         let homeVC = CategoriesVC(apiClient: apiClient)
-//        homeVC.title = "Home"
         let houseSymbol = UIImage(systemName: "house")
         homeVC.tabBarItem = UITabBarItem(title: "BACK TO CATEGORIES", image: houseSymbol, tag: 0)
-//        let navBarAppearance = UINavigationBarAppearance()
-//        navBarAppearance.configureWithOpaqueBackground()
-//        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-//        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-//        navBarAppearance.backgroundColor = .red
-        
         return UINavigationController(rootViewController: homeVC)
     }
-    
-//    func createFavoritesNavigationController() -> UINavigationController {
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let apiClient = appDelegate.apiClient
-//        let favoritesVC = FavoritesVC(apiClient: apiClient)
-////        favoritesVC.title = "FAVORITES"
-//        favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-//        return UINavigationController(rootViewController: favoritesVC)
-//    }
-    
+        
     func createShopingListVCNavigationController() -> UINavigationController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let dataController = appDelegate.dataController
         let shoppingVC = ShoppingListVC(dataController: dataController)
-//        shoppingVC.title = "Shopping List"
         let cartSymbol = UIImage(systemName: "cart")
         shoppingVC.tabBarItem = UITabBarItem(title: "Shopping List", image: cartSymbol, tag: 1)
         return UINavigationController(rootViewController: shoppingVC)
@@ -63,7 +50,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func createTabBar() -> UITabBarController {
         let tabBar = UITabBarController()
-//        UITabBar.appearance().tintColor = .systemGreen
+        tabBar.tabBar.tintColor = .purple
+        tabBar.tabBar.unselectedItemTintColor = .white
+        tabBar.tabBar.barTintColor = .systemPurple
         tabBar.viewControllers = [createHomeNavigationController(),createShopingListVCNavigationController()]
         return tabBar
     }

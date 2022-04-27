@@ -16,7 +16,6 @@ class DataController: NSObject {
     }
     
     var context: NSManagedObjectContext {
-//        persistentContainer.viewContext.refreshAllObjects()
         return persistentContainer.viewContext
     }
     
@@ -24,10 +23,9 @@ class DataController: NSObject {
     
     func initalizeStack(completion: @escaping () -> Void) {
         let description = NSPersistentStoreDescription()
-        description.type = NSSQLiteStoreType // set desired type
+        description.type = NSSQLiteStoreType
         
-        if description.type == NSSQLiteStoreType { //|| description.type == NSBinaryStoreType {
-            // for persistence on local storage we need to set url
+        if description.type == NSSQLiteStoreType {
             description.url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
                 .first?.appendingPathComponent("database")
         }
@@ -50,6 +48,17 @@ class DataController: NSObject {
         
         self.context.insert(shIngredient)
         try self.context.save()
+    }
+    
+    func createIngredient(name: String) {
+        let newIngredient = SHIngredient(context: context)
+        newIngredient.name = name
+        do {
+            try context.save()
+            
+        } catch {
+            print("problem with saving customIngredient")
+        }
     }
     
     func delete(ingredient: SHIngredient) throws {

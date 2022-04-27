@@ -18,20 +18,10 @@ class IngredientsHeader: UICollectionReusableView {
         return imageView
     }()
     
-    fileprivate let ingredientsIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "bag")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        
-        return imageView
-    }()
-    
     private lazy var imageTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HoeflerText-BlackItalic", size: 15)
-        label.backgroundColor = .init(red: 105/105, green: 105/105, blue: 105/105, alpha: 0.7)
+        label.font = UIFont(name: "GillSans", size: 15)
+        label.backgroundColor = .init(red: 105/105, green: 105/105, blue: 105/105, alpha: 0.5)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -41,7 +31,8 @@ class IngredientsHeader: UICollectionReusableView {
     
     private lazy var ingredientsLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HoeflerText-BlackItalic", size: 20)
+        label.font = UIFont(name: "GillSans", size: 25)
+        label.textColor = .systemPurple
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -74,18 +65,11 @@ class IngredientsHeader: UICollectionReusableView {
         recipePhoto.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         
         addSubview(ingredientsLabel)
-        ingredientsLabel.topAnchor.constraint(equalTo: recipePhoto.bottomAnchor).isActive = true
+        ingredientsLabel.topAnchor.constraint(equalTo: recipePhoto.bottomAnchor, constant: 20).isActive = true
         ingredientsLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         ingredientsLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         ingredientsLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         ingredientsLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        
-        addSubview(ingredientsIcon)
-        ingredientsIcon.translatesAutoresizingMaskIntoConstraints = false
-        ingredientsIcon.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        ingredientsIcon.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        ingredientsIcon.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        ingredientsIcon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
         addSubview(imageTitleLabel)
         imageTitleLabel.contentMode = .center
