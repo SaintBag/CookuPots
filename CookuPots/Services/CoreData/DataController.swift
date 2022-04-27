@@ -1,0 +1,77 @@
+//
+//  DataController.swift
+//  CookuPots
+//
+//  Created by Sebulla on 13/04/2022.
+//
+
+import UIKit
+import CoreData
+
+class DataController: NSObject {
+    
+    static let shared = DataController()
+    private override init() {
+        
+    }
+    
+    var context: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
+    let persistentContainer = NSPersistentContainer(name: "Model")
+    
+    func initalizeStack(completion: @escaping () -> Void) {
+        let description = NSPersistentStoreDescription()
+        description.type = NSSQLiteStoreType
+        
+        if description.type == NSSQLiteStoreType {
+            description.url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                .first?.appendingPathComponent("database")
+        }
+        persistentContainer.persistentStoreDescriptions = [description]
+        persistentContainer.loadPersistentStores { description, error in
+            
+            if let error = error {
+                print("could not load store \(error.localizedDescription)")
+                return
+            }
+            
+            print("store loaded")
+            completion()
+        }
+    }
+    
+    func insertIngredient(ingredient: Ingredient) throws {
+        let shIngredient = SHIngredient(context: self.context)
+        shIngredient.name = ingredient.name
+        
+        self.context.insert(shIngredient)
+        try self.context.save()
+    }
+    
+    func createIngredient(name: String) {
+        let newIngredient = SHIngredient(context: context)
+        newIngredient.name = name
+        do {
+            try context.save()
+            
+        } catch {
+            print("problem with saving customIngredient")
+        }
+    }
+    
+    func delete(ingredient: SHIngredient) throws {
+        let fetchRequest: NSFetchRequest<SHIngredient> = SHIngredient.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", ingredient.name) //TODO: try with id
+        do {
+            let objects = try context.fetch(fetchRequest)
+            for object in objects {
+                context.delete(object)
+            }
+            try context.save()
+        } catch _ {
+            fatalError()
+        }
+    }
+}

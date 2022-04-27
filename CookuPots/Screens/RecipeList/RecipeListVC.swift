@@ -9,13 +9,16 @@ import UIKit
 import Kingfisher
 
 class RecipeListVC: UIViewController {
-    
+    let searchBar = UISearchBar()
     private lazy var tableView = UITableView()
     private var recipes: [Recipe] = [] {
         didSet {
-            tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
+    
     struct CellID {
         static let RecipeCell = "RecipeCell"
     }
@@ -36,12 +39,13 @@ class RecipeListVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureTableView()
-        apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipies, error) in
-            self?.recipes = recipies
+        apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipes, error) in
+            self?.recipes = recipes
         }
+        configureUI()
     }
+    
     func configureTableView() {
-        
         view.addSubview(tableView)
         setTableViewDelegates()
         tableView.rowHeight = 100
@@ -52,27 +56,24 @@ class RecipeListVC: UIViewController {
     func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
-        
     }
 }
 
 extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return recipes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CellID.RecipeCell) as! RecipeCell
-        
         let recipe = recipes[indexPath.row]
         cell.recipeTitleLabel.text = recipe.title
-        
-        let url = URL(string: recipe.image)
-        cell.imageView?.kf.setImage(with: url)
+        DispatchQueue.main.async {
+            let url = URL(string: recipe.image)
+            cell.imageView?.kf.setImage(with: url)
+        }
         return cell
     }
     
@@ -85,14 +86,14 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
         
         let recipeTitle = recipe.title
         title = recipeTitle
-        // TODO: not sure about parameters here
         let id = recipe.id
         let title = recipe.title
         let image = recipe.image
-        let vc = RecipeDescriptionVC(recipe: Recipe.init(id: id, title: title, image: image))
+        
+        let dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
+        let vc = FoodController(recipe: Recipe.init(id: id, title: title, image: image), instructions: nil, apiClient: apiClient, dataController: dataController)
         self.navigationController?.pushViewController(vc,animated: true)
         navigationController?.navigationItem.largeTitleDisplayMode = .always
-        
     }
 }
 
@@ -106,4 +107,67 @@ extension UIView {
     }
 }
 
+extension RecipeListVC {
+    
+    func configureUI() {
+        
+        searchBarSetup()
+        showSearchBarButton(schouldShow: true)
+    }
+}
 
+extension RecipeListVC: UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("Search bar did begin editing...")
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("Search bar did end editing..")
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("Search text is \(searchText)")
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        search(schouldShow: false)
+    }
+    func searchBarSetup() {
+        
+        searchBar.delegate = self
+        searchBar.sizeToFit()
+        searchBar.placeholder = "Search"
+        searchBar.tintColor = .black
+        searchBar.searchBarStyle = .minimal
+        searchBar.searchTextField.backgroundColor = .white
+        searchBar.searchTextField.textColor = .black
+        
+    }
+    
+    func showSearchBarButton(schouldShow: Bool) {
+        if schouldShow {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: "magnifyingglass"),
+                style: .plain,
+                target: self,
+                action: #selector(handleShowSearch))
+            navigationItem.rightBarButtonItem?.tintColor = .white
+            navigationItem.rightBarButtonItem?.width = 20
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
+    
+    @objc func handleShowSearch() {
+        search(schouldShow: true)
+        searchBar.becomeFirstResponder()
+    }
+    
+    func search(schouldShow: Bool) {
+        showSearchBarButton(schouldShow: !schouldShow)
+        searchBar.showsCancelButton = schouldShow
+        searchBar.showsSearchResultsButton = schouldShow
+        navigationItem.titleView = schouldShow ? searchBar : nil
+    }
+}

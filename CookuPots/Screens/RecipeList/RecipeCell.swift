@@ -10,7 +10,14 @@ import UIKit
 class RecipeCell: UITableViewCell {
     
     var recipeImageView = UIImageView()
-    var recipeTitleLabel = UILabel()
+    
+    let recipeTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "HoeflerText-Regular", size: 16)
+        label.textAlignment = .natural
+        label.numberOfLines = 0
+        return label
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,11 +48,14 @@ class RecipeCell: UITableViewCell {
     }
     
     func setImageConstrains() {
-        recipeImageView.translatesAutoresizingMaskIntoConstraints                                  = false
-        recipeImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive                  = true
-        recipeImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12).isActive    = true
-        recipeImageView.heightAnchor.constraint(equalToConstant: 80).isActive                      = true
-        recipeImageView.widthAnchor.constraint(equalTo: recipeTitleLabel.heightAnchor, multiplier: 16/9).isActive = true
+        recipeImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            recipeImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            recipeImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+            recipeImageView.heightAnchor.constraint(equalToConstant: 80),
+            recipeImageView.widthAnchor.constraint(equalTo: recipeTitleLabel.heightAnchor, multiplier: 16/9)
+        ])
     }
     
     func setTitleLabelConstrains() {
@@ -56,5 +66,4 @@ class RecipeCell: UITableViewCell {
         recipeTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
         
     }
-    
 }
