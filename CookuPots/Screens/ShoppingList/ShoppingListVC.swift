@@ -9,8 +9,9 @@ import UIKit
 import CoreData
 
 class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    typealias Dependencies = HasDataController
     
-    private let dataController: DataController
+    private let dependencies: Dependencies
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
@@ -18,8 +19,8 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         return table
     }()
     
-    init(dataController: DataController) {
-        self.dataController = dataController
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,7 +45,7 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let fetchRequest: NSFetchRequest<SHIngredient> = SHIngredient.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.context, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dependencies.dataController.context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         return fetchedResultsController
     }()
@@ -62,7 +63,7 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else {
                 return
             }
-            self?.dataController.createIngredient(name: text)
+            self?.dependencies.dataController.createIngredient(name: text)
         }))
         present(alert, animated: true)
     }
@@ -143,7 +144,7 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             print("try to remove \(object.name)")
             do {
-                try self.dataController.delete(ingredient: object)
+                try self.dependencies.dataController.delete(ingredient: object)
                 
             } catch(let error) {
                 print(error)

@@ -13,6 +13,9 @@ struct CustomImage {
 }
 
 class CategoriesVC: UICollectionViewController {
+    typealias Dependencies = HasAPIClient
+    
+    private let dependencies: Dependencies
     
     private let flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -29,7 +32,6 @@ class CategoriesVC: UICollectionViewController {
         CustomImage.init(image: #imageLiteral(resourceName: "desserts"))
     ]
     
-    let apiClient: APIClient
     let searchBar = UISearchBar()
     static let categoryHeaderId = "categoryHeaderId"
     let headerId = "headerId"
@@ -42,8 +44,8 @@ class CategoriesVC: UICollectionViewController {
         }
     }
     
-    init(apiClient: APIClient) {
-        self.apiClient = apiClient
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
         super.init(collectionViewLayout: CategoriesVC.createLayout())
     }
     
@@ -57,7 +59,7 @@ class CategoriesVC: UICollectionViewController {
     }
     
     private func loadData() {
-        apiClient.downloadRandomRecipies { (recipes, error) in
+        dependencies.apiClient.downloadRandomRecipies { (recipes, error) in
             if let error = error {
                 let alert = UIAlertController(title: "Sorry something went wrong", message: error.localizedDescription, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (action) in
@@ -136,30 +138,29 @@ class CategoriesVC: UICollectionViewController {
         
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let vc = RecipeListVC(apiClient: apiClient, foodType: .breakfast)
+                let vc = RecipeListVC(dependencies: dependencies, foodType: .breakfast)
                 vc.title = "BREAKFAST"
                 self.navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 1 {
-                let vc = RecipeListVC(apiClient: apiClient, foodType: .mainCourse)
+                let vc = RecipeListVC(dependencies: dependencies, foodType: .mainCourse)
                 vc.title = "DINNER"
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 2 {
-                let vc = RecipeListVC(apiClient: apiClient, foodType: .soup)
+                let vc = RecipeListVC(dependencies: dependencies, foodType: .soup)
                 navigationController?.pushViewController(vc, animated: true)
                 vc.title = "SOUP"
                 
             } else {
-                let vc = RecipeListVC(apiClient: apiClient, foodType: .dessert)
+                let vc = RecipeListVC(dependencies: dependencies, foodType: .dessert)
                 navigationController?.pushViewController(vc, animated: true)
                 vc.title = "DESSERT"
             }
             
         } else if indexPath.section == 1 {
             let recipe = randomRecipes[indexPath.row]
-            let dataController = DataController.shared
-            let vc = FoodController(recipe: recipe, instructions: recipe.analyzedInstructions.first?.steps, apiClient: apiClient, dataController: dataController)
+            let vc = FoodController(dependencies: dependencies as! AllDependencies, recipe: recipe, instructions: recipe.analyzedInstructions.first?.steps)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

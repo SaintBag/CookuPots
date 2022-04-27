@@ -84,7 +84,17 @@ struct Temperature: Codable {
     let unit: String
 }
 
-class APIClient {
+protocol HasAPIClient {
+    var apiClient: APIClientProtocol { get }
+}
+
+protocol APIClientProtocol {
+    func downloadInstructions(forRecipeID recipeID: Int, onComplete: @escaping ([Step], Error?) -> Void)
+    func downloadRecipies(ofType type: FoodCategory, onComplete: @escaping ([Recipe], Error?) -> Void)
+    func downloadRandomRecipies(onComplete: @escaping ([RandomRecipe], Error?) -> Void)
+}
+
+class APIClient: APIClientProtocol {
 
     let urlSession = URLSession.shared
     let spoonacularKey = "4414fe9b06284b2ba5ea75f7a9d9e9e1"

@@ -9,6 +9,10 @@ import UIKit
 import Kingfisher
 
 class RecipeListVC: UIViewController {
+    typealias Dependencies = HasAPIClient
+    
+    private let dependencies: Dependencies
+    
     let searchBar = UISearchBar()
     private lazy var tableView = UITableView()
     private var recipes: [Recipe] = [] {
@@ -22,11 +26,10 @@ class RecipeListVC: UIViewController {
     struct CellID {
         static let RecipeCell = "RecipeCell"
     }
-    private let apiClient: APIClient
     private let foodCategory: FoodCategory
     
-    init(apiClient: APIClient, foodType: FoodCategory) {
-        self.apiClient = apiClient
+    init(dependencies: Dependencies, foodType: FoodCategory) {
+        self.dependencies = dependencies
         self.foodCategory = foodType
         super.init(nibName: nil, bundle: nil)
     }
@@ -39,7 +42,7 @@ class RecipeListVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureTableView()
-        apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipes, error) in
+        dependencies.apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipes, error) in
             self?.recipes = recipes
         }
         configureUI()
@@ -90,8 +93,7 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
         let title = recipe.title
         let image = recipe.image
         
-        let dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
-        let vc = FoodController(recipe: Recipe.init(id: id, title: title, image: image), instructions: nil, apiClient: apiClient, dataController: dataController)
+        let vc = FoodController(dependencies: dependencies as! AllDependencies, recipe: Recipe(id: id, title: title, image: image), instructions: nil)
         self.navigationController?.pushViewController(vc,animated: true)
         navigationController?.navigationItem.largeTitleDisplayMode = .always
     }

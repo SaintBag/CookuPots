@@ -9,9 +9,9 @@ import UIKit
 import Kingfisher
 
 class FoodController: UICollectionViewController {
+    typealias Dependencies = HasAPIClient & HasDataController
     
-    private let apiClient: APIClient
-    private let dataController: DataController
+    private let dependencies: Dependencies
     private let recipe: RecipePresentable
     private var allIngredients: [Ingredient] = []
     private var instructions: [Step] = [] {
@@ -36,10 +36,9 @@ class FoodController: UICollectionViewController {
     private let ingCell = "ingCell"
     
     
-    init(recipe: RecipePresentable, instructions: [Step]?, apiClient: APIClient, dataController: DataController ) {
+    init(dependencies: Dependencies, recipe: RecipePresentable, instructions: [Step]?) {
+        self.dependencies = dependencies
         self.recipe = recipe
-        self.apiClient = apiClient
-        self.dataController = dataController
         self.instructions = instructions ?? []
         super.init(collectionViewLayout: FoodController.createViewLayout())
     }
@@ -50,7 +49,7 @@ class FoodController: UICollectionViewController {
         collectionView.backgroundColor = .white
         registerCells()
         if instructions.isEmpty {
-            apiClient.downloadInstructions(forRecipeID: recipe.id) { [weak self] (instructions, error) in
+            dependencies.apiClient.downloadInstructions(forRecipeID: recipe.id) { [weak self] (instructions, error) in
                 self?.instructions = instructions
             }
         }
@@ -154,10 +153,9 @@ class FoodController: UICollectionViewController {
             
             let ingredient = allIngredients[indexPath.row]
             cell.setIngredientLabel(text: ingredient.name.capitalized)
-            cell.addToCartAction = {
+            cell.addToCartAction = { [weak self] in
                 do {
-                    try self.dataController.insertIngredient(ingredient: ingredient)
-                    
+                    try self?.dependencies.dataController.insertIngredient(ingredient: ingredient)
                 } catch(let error) {
                     print(error)
                 }
@@ -189,9 +187,7 @@ extension FoodController {
         
     }
     @objc func moveToShoppingList() {
-        
-        let vc = ShoppingListVC(dataController: DataController.shared)
+        let vc = ShoppingListVC(dependencies: dependencies)
         navigationController?.pushViewController(vc, animated: true)
-        
     }
 }

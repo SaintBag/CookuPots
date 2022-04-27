@@ -8,12 +8,20 @@
 import UIKit
 import CoreData
 
-class DataController: NSObject {
+protocol HasDataController {
+    var dataController: DataControllerProtocol { get }
+}
+
+protocol DataControllerProtocol {
+    var context: NSManagedObjectContext { get }
     
-    static let shared = DataController()
-    private override init() {
-        
-    }
+    func initalizeStack(completion: @escaping () -> Void)
+    func insertIngredient(ingredient: Ingredient) throws
+    func createIngredient(name: String)
+    func delete(ingredient: SHIngredient) throws
+}
+
+final class DataController: DataControllerProtocol {
     
     var context: NSManagedObjectContext {
         return persistentContainer.viewContext
