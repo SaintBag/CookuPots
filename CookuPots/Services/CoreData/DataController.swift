@@ -71,7 +71,7 @@ final class DataController: DataControllerProtocol {
     
     func delete(ingredient: SHIngredient) throws {
         let fetchRequest: NSFetchRequest<SHIngredient> = SHIngredient.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name == %@", ingredient.name) //TODO: try with id
+        fetchRequest.predicate = NSPredicate(format: "name == %@", ingredient.name) 
         do {
             let objects = try context.fetch(fetchRequest)
             for object in objects {

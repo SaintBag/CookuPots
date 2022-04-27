@@ -8,13 +8,17 @@
 import UIKit
 import Kingfisher
 
-class RecipeListVC: UIViewController {
+final class RecipeListVC: UIViewController {
+    
     typealias Dependencies = HasAPIClient
-    
     private let dependencies: Dependencies
+    private let foodCategory: FoodCategory
     
-    let searchBar = UISearchBar()
+    private lazy var  searchBar = UISearchBar()
     private lazy var tableView = UITableView()
+    
+    private let RecipeCellID = "RecipeCell"
+
     private var recipes: [Recipe] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -22,11 +26,6 @@ class RecipeListVC: UIViewController {
             }
         }
     }
-    
-    struct CellID {
-        static let RecipeCell = "RecipeCell"
-    }
-    private let foodCategory: FoodCategory
     
     init(dependencies: Dependencies, foodType: FoodCategory) {
         self.dependencies = dependencies
@@ -42,21 +41,27 @@ class RecipeListVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureTableView()
+        configureSearchBarUI()
+        downloadRecipes()
+
+    }
+    
+    private func downloadRecipes() {
         dependencies.apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipes, error) in
             self?.recipes = recipes
         }
-        configureUI()
     }
     
-    func configureTableView() {
+    private func configureTableView() {
         view.addSubview(tableView)
         setTableViewDelegates()
         tableView.rowHeight = 100
-        tableView.register(RecipeCell.self, forCellReuseIdentifier: CellID.RecipeCell)
+        tableView.register(RecipeCell.self, forCellReuseIdentifier: RecipeCellID)
         tableView.pinView(to: view)
         
     }
-    func setTableViewDelegates() {
+    
+    private func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -70,19 +75,18 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.RecipeCell) as! RecipeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: RecipeCellID) as! RecipeCell
         let recipe = recipes[indexPath.row]
-        cell.recipeTitleLabel.text = recipe.title
-        DispatchQueue.main.async {
-            let url = URL(string: recipe.image)
-            cell.imageView?.kf.setImage(with: url)
-        }
+        let url = URL(string: recipe.image)
+        
+        cell.setRecipeTitleLabel(title: recipe.title)
+        cell.imageView?.kf.setImage(with: url)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.RecipeCell) as! RecipeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: RecipeCellID) as! RecipeCell
         let recipe = recipes[indexPath.row]
         let url = URL(string: recipe.image)
         cell.imageView?.kf.setImage(with: url)
@@ -100,6 +104,7 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension UIView {
+    
     func pinView(to superview: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         topAnchor.constraint(equalTo: superview.topAnchor).isActive = true
@@ -111,10 +116,22 @@ extension UIView {
 
 extension RecipeListVC {
     
-    func configureUI() {
+    private func configureSearchBarUI() {
         
         searchBarSetup()
         showSearchBarButton(schouldShow: true)
+    }
+    
+    private func searchBarSetup() {
+        
+        searchBar.delegate = self
+        searchBar.sizeToFit()
+        searchBar.placeholder = "Search"
+        searchBar.tintColor = .black
+        searchBar.searchBarStyle = .minimal
+        searchBar.searchTextField.backgroundColor = .white
+        searchBar.searchTextField.textColor = .black
+        
     }
 }
 
@@ -134,17 +151,6 @@ extension RecipeListVC: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         search(schouldShow: false)
-    }
-    func searchBarSetup() {
-        
-        searchBar.delegate = self
-        searchBar.sizeToFit()
-        searchBar.placeholder = "Search"
-        searchBar.tintColor = .black
-        searchBar.searchBarStyle = .minimal
-        searchBar.searchTextField.backgroundColor = .white
-        searchBar.searchTextField.textColor = .black
-        
     }
     
     func showSearchBarButton(schouldShow: Bool) {

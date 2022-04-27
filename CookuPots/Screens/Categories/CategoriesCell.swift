@@ -55,9 +55,9 @@ class CategoriesCell: UICollectionViewCell {
         categoryImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         
         contentView.addSubview(categoriesNameLabel)
-        categoriesNameLabel.bottomAnchor.constraint(equalTo: categoryImageView.bottomAnchor, constant: -15).isActive = true
-        categoriesNameLabel.centerXAnchor.constraint(equalTo: categoryImageView.centerXAnchor).isActive = true
-        categoriesNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
+        categoriesNameLabel.bottomAnchor.constraint(equalTo: categoriesImage.bottomAnchor, constant: -25).isActive = true
+        categoriesNameLabel.centerXAnchor.constraint(equalTo: categoriesImage.centerXAnchor).isActive = true
+        categoriesNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7).isActive = true
         categoriesNameLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15).isActive = true
     }
 }

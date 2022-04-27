@@ -68,6 +68,7 @@ struct Step: Codable {
     let ingredients: [Ingredient]
     let equipment: [Equipment]?
 }
+
 struct Ingredient: Codable, Hashable {
     let id: Int
     let name: String
@@ -104,7 +105,7 @@ class APIClient: APIClientProtocol {
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/\(recipeID)/analyzedInstructions"
        
-        let params = "?apiKey=\(spoonacularKeyTwo)"
+        let params = "?apiKey=\(spoonacularKey)"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
@@ -131,7 +132,7 @@ class APIClient: APIClientProtocol {
        
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/complexSearch"
-        let params = "?apiKey=\(spoonacularKeyTwo)&type=\(type.apiValue)&instructionsRequired=true&offset=25&number=100"
+        let params = "?apiKey=\(spoonacularKey)&type=\(type.apiValue)&instructionsRequired=true&offset=25&number=100"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
@@ -185,7 +186,7 @@ class APIClient: APIClientProtocol {
        
         let baseURL = "https://api.spoonacular.com"
         let endpoint = "/recipes/random"
-        let params = "?apiKey=\(spoonacularKeyTwo)&number=5"
+        let params = "?apiKey=\(spoonacularKey)&number=5"
         guard let url = URL(string: baseURL + endpoint + params) else {
             return
         }
