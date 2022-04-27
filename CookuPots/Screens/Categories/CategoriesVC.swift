@@ -8,12 +8,13 @@
 import UIKit
 import Kingfisher
 
-struct CustomImage {
-    var image: UIImage
-}
-
-class CategoriesVC: UICollectionViewController {
+final class CategoriesVC: UICollectionViewController {
     typealias Dependencies = HasAPIClient
+    
+    struct Category {
+        let image: UIImage
+        let title: String
+    }
     
     private let dependencies: Dependencies
     
@@ -25,17 +26,19 @@ class CategoriesVC: UICollectionViewController {
         return layout
     }()
     
-    let customImageData = [
-        CustomImage.init(image: #imageLiteral(resourceName: "breakfast")),
-        CustomImage.init(image: #imageLiteral(resourceName: "dinner")),
-        CustomImage.init(image: #imageLiteral(resourceName: "soup")),
-        CustomImage.init(image: #imageLiteral(resourceName: "desserts"))
+    private let categories: [Category] = [
+        .init(image: UIImage(#imageLiteral(resourceName: "breakfast")), title: "BREAKFAST"),
+        .init(image: UIImage(#imageLiteral(resourceName: "dinner")), title: "DINNER"),
+        .init(image: UIImage(#imageLiteral(resourceName: "soup")), title: "SOUPS"),
+        .init(image: UIImage(#imageLiteral(resourceName: "desserts")), title: "DESSERTS"),
     ]
     
-    let searchBar = UISearchBar()
-    static let categoryHeaderId = "categoryHeaderId"
-    let headerId = "headerId"
-    let CollectionCellId = "CollectionCellId"
+    private lazy var searchBar = UISearchBar()
+    
+    private static let categoryHeaderId = "categoryHeaderId"
+    private let headerId = "headerId"
+    private let collectionCellId = "CollectionCellId"
+    
     var randomRecipes: [RandomRecipe] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -49,23 +52,41 @@ class CategoriesVC: UICollectionViewController {
         super.init(collectionViewLayout: CategoriesVC.createLayout())
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = UIRectEdge.bottom
-        configureUI()
+        edgesForExtendedLayout = UIRectEdge.bottom
+        titleLogoSetup()
         setupCollectionView()
         loadData()
+    }
+    
+    private func titleLogoSetup() {
+        let navController = navigationController!
         
+        let image = UIImage(named: "CookUPots")
+        let imageView = UIImageView(image: image)
+        
+        let bannerWidth = navController.navigationBar.frame.size.width / 2
+        let bannerHeight = navController.navigationBar.frame.size.height
+        
+        let bannerX = bannerWidth / 5
+        let bannerY = bannerHeight / 2
+        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
+        imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .white
+        navigationItem.titleView = imageView
     }
     
     private func loadData() {
         dependencies.apiClient.downloadRandomRecipies { (recipes, error) in
             if let error = error {
                 let alert = UIAlertController(title: "Sorry something went wrong", message: error.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (action) in
-                   
-                }))
-                    self.present(alert, animated: true, completion: nil)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
             self.randomRecipes = recipes
         }
@@ -74,14 +95,12 @@ class CategoriesVC: UICollectionViewController {
     private func setupCollectionView() {
         collectionView.isScrollEnabled = false
         collectionView.backgroundColor = .white
-        collectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CollectionCellId)
-        collectionView.register(Header.self, forSupplementaryViewOfKind: CategoriesVC.categoryHeaderId, withReuseIdentifier: headerId)
+        collectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: collectionCellId)
+        collectionView.register(Header.self, forSupplementaryViewOfKind: Self.categoryHeaderId, withReuseIdentifier: headerId)
     }
     
     private static func createLayout() -> UICollectionViewCompositionalLayout {
-        
-        return  UICollectionViewCompositionalLayout { (sectionNumber, _) -> NSCollectionLayoutSection? in
-            
+        UICollectionViewCompositionalLayout { (sectionNumber, _) -> NSCollectionLayoutSection? in
             if sectionNumber == 0 {
                 
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5), heightDimension: .absolute(150)))
@@ -171,7 +190,7 @@ class CategoriesVC: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            return customImageData.count
+            return categories.count
         } else if section == 1 {
             return randomRecipes.count
         }
@@ -192,69 +211,22 @@ class CategoriesVC: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionCellId , for: indexPath) as! CategoriesCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionCellId , for: indexPath) as! CategoriesCell
         
         if indexPath.section == 0 {
-            
-            cell.customImageData = self.customImageData[indexPath.row]
-            if indexPath.row == 0 {
-                cell.setCategoriesNameLabel(title: "BREAKFAST")
-            } else if indexPath.row == 1 {
-                cell.setCategoriesNameLabel(title: "DINNER")
-            } else if indexPath.row == 2 {
-                cell.setCategoriesNameLabel(title: "SOUPS")
-            } else if indexPath.row == 3 {
-                cell.setCategoriesNameLabel(title: "DESSERTS")
-            }
-            
+            cell.categoryImageView.image = categories[indexPath.row].image
+            cell.setCategoriesNameLabel(title: categories[indexPath.row].title)
         } else if indexPath.section == 1 {
-           
-                let randomRecipe = self.randomRecipes[indexPath.row]
-                print(randomRecipe)
-                cell.setCategoriesNameLabel(title: randomRecipe.title.uppercased())
-                let url = URL(string: randomRecipe.image)!
-                print(url)
-                cell.categoriesImage.kf.setImage(with: url)
-            
+            let randomRecipe = self.randomRecipes[indexPath.row]
+            cell.setCategoriesNameLabel(title: randomRecipe.title.uppercased())
+            let url = URL(string: randomRecipe.image)!
+            cell.categoryImageView.kf.setImage(with: url)
         }
         return cell
     }
     
     func collectionView(_collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItem indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: 200)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    func setupView() {
-        
-    }
-}
-
-//MARK: -  SEARCH BAR ADDED TO CategoriesVC
-
-extension CategoriesVC {
-    
-    func configureUI() {
-        titleLogoSetup()
-    }
-    
-    func titleLogoSetup() {
-        let navController = navigationController!
-        
-        let image = UIImage(named: "CookUPots")
-        let imageView = UIImageView(image: image)
-        
-        let bannerWidth = navController.navigationBar.frame.size.width / 2
-        let bannerHeight = navController.navigationBar.frame.size.height
-        
-        let bannerX = bannerWidth / 5
-        let bannerY = bannerHeight / 2
-        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
-        imageView.contentMode = .scaleToFill
-        imageView.backgroundColor = .white
-        navigationItem.titleView = imageView
     }
 }
 

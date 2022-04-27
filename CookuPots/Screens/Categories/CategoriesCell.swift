@@ -7,17 +7,11 @@
 
 import UIKit
 import Kingfisher
+
 //TODO: change name
 class CategoriesCell: UICollectionViewCell {
     
-    var customImageData: CustomImage? {
-        didSet {
-            guard let customImageData = customImageData else { return }
-            categoriesImage.image = customImageData.image
-        }
-    }
-    
-    let categoriesImage: UIImageView = {
+    lazy var categoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -42,7 +36,6 @@ class CategoriesCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -55,15 +48,15 @@ class CategoriesCell: UICollectionViewCell {
     
     private func setupViews() {
         
-        contentView.addSubview(categoriesImage)
-        categoriesImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2.5).isActive = true
-        categoriesImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        categoriesImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        categoriesImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        contentView.addSubview(categoryImageView)
+        categoryImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2.5).isActive = true
+        categoryImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        categoryImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        categoryImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         
         contentView.addSubview(categoriesNameLabel)
-        categoriesNameLabel.bottomAnchor.constraint(equalTo: categoriesImage.bottomAnchor, constant: -15).isActive = true
-        categoriesNameLabel.centerXAnchor.constraint(equalTo: categoriesImage.centerXAnchor).isActive = true
+        categoriesNameLabel.bottomAnchor.constraint(equalTo: categoryImageView.bottomAnchor, constant: -15).isActive = true
+        categoriesNameLabel.centerXAnchor.constraint(equalTo: categoryImageView.centerXAnchor).isActive = true
         categoriesNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
         categoriesNameLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15).isActive = true
     }

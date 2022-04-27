@@ -7,7 +7,7 @@
 import UIKit
 import QuartzCore
 
-class Header: UICollectionReusableView {
+final class Header: UICollectionReusableView {
     
     private lazy var label: UILabel = {
         let label = UILabel()
@@ -26,6 +26,7 @@ class Header: UICollectionReusableView {
         super.init(frame: frame)
         setupView()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -33,6 +34,7 @@ class Header: UICollectionReusableView {
     func setTitle(title: String) {
         label.text = title
     }
+    
     func setupView() {
         addSubview(label)
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
