@@ -176,6 +176,26 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		1B8D6E79281AB48C009A3C13 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3A269F0A27EB470A00927540 /* Info.plist */,
+				3A269EFC27EB46F300927540 /* AppDelegate.swift */,
+				3A269EFE27EB46F300927540 /* SceneDelegate.swift */,
+				1B43F4C328195A5100BE3C40 /* ApplicationDependencies.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		1B8D6E7A281AB4A1009A3C13 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3A269F0727EB470A00927540 /* LaunchScreen.storyboard */,
+				3A269F0527EB470A00927540 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		3A269EF027EB46F300927540 = {
 			isa = PBXGroup;
 			children = (
@@ -199,16 +219,12 @@
 		3A269EFB27EB46F300927540 /* CookuPots */ = {
 			isa = PBXGroup;
 			children = (
+				1B8D6E79281AB48C009A3C13 /* App */,
 				3A44842227ECB440002C948A /* Services */,
-				3A269EFC27EB46F300927540 /* AppDelegate.swift */,
-				1B43F4C328195A5100BE3C40 /* ApplicationDependencies.swift */,
-				3A269EFE27EB46F300927540 /* SceneDelegate.swift */,
 				1B8CD474281A994C000DFE31 /* Helpers */,
 				3A44841D27ECA0DA002C948A /* Screens */,
-				3A269F0527EB470A00927540 /* Assets.xcassets */,
 				1B8D6E75281AB2EF009A3C13 /* Extensions */,
-				3A269F0727EB470A00927540 /* LaunchScreen.storyboard */,
-				3A269F0A27EB470A00927540 /* Info.plist */,
+				1B8D6E7A281AB4A1009A3C13 /* Resources */,
 			);
 			path = CookuPots;
 			sourceTree = "<group>";
