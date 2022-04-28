@@ -9,7 +9,7 @@ import UIKit
 
 class IngCell: UICollectionViewCell {
     
-    var addToCartAction: (() -> Void)?
+    var addToCartAction: ((Bool) -> Void)?
     var removeFromCartAction: (() -> Void)?
     
     private lazy var button: UIButton = {
@@ -17,21 +17,13 @@ class IngCell: UICollectionViewCell {
         btn.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
         btn.setImage(UIImage(systemName: "trash"), for: .selected)
         btn.tintColor = .systemPurple
-        btn.addTarget(self, action: #selector(self.didTapButton), for: .primaryActionTriggered)
+        btn.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
         return btn
     }()
     
     @objc func didTapButton() {
-        addToCartAction?()
-        button.setImage(UIImage(systemName: "trash"), for: .normal)
-        button.addTarget(self, action: #selector(didTapButton2), for: .touchUpInside)
-        
-    }
-    
-    @objc func didTapButton2() {
-        removeFromCartAction?()
-        print("remove from cart")
-//        button.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
+        button.isSelected = !button.isSelected
+        addToCartAction?(button.isSelected)
     }
     
     private lazy var ingredientLabel: UILabel = {

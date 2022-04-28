@@ -69,6 +69,10 @@ final class DataController: DataControllerProtocol {
         }
     }
     
+    func isSaved(ingredient: Ingredient) -> Bool {
+        // TODO: Check if database contains this ingredient/its name...
+    }
+    
     func delete(ingredient: SHIngredient) throws {
         let fetchRequest: NSFetchRequest<SHIngredient> = SHIngredient.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name == %@", ingredient.name) 

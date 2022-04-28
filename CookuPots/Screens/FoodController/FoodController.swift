@@ -157,9 +157,14 @@ final class FoodController: UICollectionViewController {
             
             let ingredient = allIngredients[indexPath.row]
             cell.setIngredientLabel(text: ingredient.name.capitalized)
-            cell.addToCartAction = { [weak self] in
+            // TODO: Check if this ingredient is already in database, if so - set it's button state to .isSelected.
+            cell.addToCartAction = { [weak self] shouldDelete in
                 do {
-                    try self?.dependencies.dataController.insertIngredient(ingredient: ingredient)
+                    if shouldDelete {
+                        // TODO: Remove from card action
+                    } else {
+                        try self?.dependencies.dataController.insertIngredient(ingredient: ingredient)
+                    }
                 } catch(let error) {
                     print(error)
                 }
