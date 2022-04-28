@@ -11,7 +11,7 @@ typealias AllDependencies = HasAPIClient & HasDataController
 
 final class ApplicationDependencies: AllDependencies {
     lazy var rootViewController: UIViewController = createTabBar()
-    lazy var apiClient: APIClientProtocol = APIClient()
+    lazy var apiClient: APIClientProtocol = APIClient(urlParametersCreator: URLParametersCreator())
     lazy var dataController: DataControllerProtocol = DataController()
 
     private func createTabBar() -> UITabBarController {
