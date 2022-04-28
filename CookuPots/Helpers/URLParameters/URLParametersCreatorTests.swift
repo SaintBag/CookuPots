@@ -20,8 +20,8 @@ final class URLParametersCreatorTests: XCTestCase {
     }
 
     func testReturnsProperStringForOnePair() throws {
-        let testParams = [
-            "testKey": "testValue"
+        let testParams: [URLParameter] = [
+            .init(key: "testKey", value: "testValue")
         ]
         let result = sut.parametersInURL(parameters: testParams)
         let expected = "?testKey=testValue"
@@ -29,10 +29,10 @@ final class URLParametersCreatorTests: XCTestCase {
     }
     
     func testReturnsProperStringForMultiplePairs() throws {
-        let testParams = [
-            "testKey": "testValue",
-            "testKey2": "testValue2",
-            "testKey3": "testValue3"
+        let testParams: [URLParameter] = [
+            .init(key: "testKey", value: "testValue"),
+            .init(key: "testKey2", value: "testValue2"),
+            .init(key: "testKey3", value: "testValue3")
         ]
         let result = sut.parametersInURL(parameters: testParams)
         let expected = "?testKey=testValue&testKey2=testValue2&testKey3=testValue3"
@@ -40,7 +40,7 @@ final class URLParametersCreatorTests: XCTestCase {
     }
     
     func testReturnsProperStringForNoObjects() throws {
-        let testParams: [String: String] = [:]
+        let testParams: [URLParameter] = []
         let result = sut.parametersInURL(parameters: testParams)
         let expected = ""
         XCTAssertEqual(result, expected)

@@ -7,11 +7,16 @@
 
 import Foundation
 
+struct URLParameter {
+    let key: String
+    let value: PresentableAsString
+}
+
 final class URLParametersCreator {
-    func parametersInURL(parameters: [String: String]) -> String {
+    func parametersInURL(parameters: [URLParameter]) -> String {
         var parametersString = "?"
         for pair in parameters {
-            parametersString.append(contentsOf: "\(pair.key)=\(pair.value)&")
+            parametersString.append(contentsOf: "\(pair.key)=\(pair.value.stringValue)&")
         }
         _ = parametersString.removeLast()
         

@@ -58,15 +58,16 @@ class APIClient: APIClientProtocol {
     
     func downloadRecipies(ofType type: FoodCategory, onComplete: @escaping ([Recipe], Error?) -> Void) {
         let endpoint = "/recipes/complexSearch"
-        let parameters = [
-            "apiKey": spoonacularKey,
-            "type": type.apiValue,
-            "instructionsRequired": "true",
-            "offset": String(25),
-            "number": String(100)
+        let parameters: [URLParameter] = [
+            .init(key: "apiKey", value: spoonacularKey),
+            .init(key: "type", value: type.apiValue),
+            .init(key: "instructionsRequired", value: "true"),
+            .init(key: "offset", value: 25),
+            .init(key: "number", value: 100),
         ]
         let parametersInURL = urlParametersCreator.parametersInURL(parameters: parameters)
         guard let url = URL(string: baseURL + endpoint + parametersInURL) else {
+            onComplete([], NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Couldn't create URL"]))
             return
         }
         let request = URLRequest(url: url)
@@ -75,7 +76,6 @@ class APIClient: APIClientProtocol {
                 if let error = error {
                     onComplete([], error)
                 } else if let data = data {
-                
                     do {
                         let recipe = try JSONDecoder().decode(RecipiesResponse.self, from: data)
                         onComplete(recipe.results, nil)
