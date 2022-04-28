@@ -17,7 +17,7 @@ class RecipeCell: UITableViewCell {
     
     private lazy var recipeTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HoeflerText-Regular", size: 16)
+        label.font = UIFont(name: "GillSans", size: 16)
         label.textAlignment = .natural
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true

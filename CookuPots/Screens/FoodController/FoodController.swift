@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class FoodController: UICollectionViewController {
+final class FoodController: UICollectionViewController {
     typealias Dependencies = HasAPIClient & HasDataController
     
     private let dependencies: Dependencies
@@ -46,8 +46,16 @@ class FoodController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        collectionView.backgroundColor = .white
         registerCells()
+        downloadInstructions()
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func downloadInstructions() {
         if instructions.isEmpty {
             dependencies.apiClient.downloadInstructions(forRecipeID: recipe.id) { [weak self] (instructions, error) in
                 self?.instructions = instructions
@@ -55,11 +63,7 @@ class FoodController: UICollectionViewController {
         }
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func registerCells() {
+    private func registerCells() {
         collectionView.register(IngCell.self, forCellWithReuseIdentifier: ingCell)
         collectionView.register(StepsCell.self, forCellWithReuseIdentifier: stepsCell)
         collectionView.register(IngredientsHeader.self, forSupplementaryViewOfKind: self.sectionHeaderId , withReuseIdentifier: sectionId)
@@ -166,8 +170,9 @@ class FoodController: UICollectionViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: stepsCell , for: indexPath) as? StepsCell else { return UICollectionViewCell() }
             
             let stepNumber = instructions[indexPath.row].number
-            cell.setTitle(title: "STEP: \(stepNumber)")
             let recipeText = instructions[indexPath.row].step
+            
+            cell.setTitle(title: "STEP: \(stepNumber)")
             cell.setRecipeText(text: recipeText)
             cell.sizeToFit()
             return cell
@@ -178,14 +183,15 @@ class FoodController: UICollectionViewController {
 extension FoodController {
     
     func configureUI() {
+        collectionView.backgroundColor = .white
         rightBarButtonSetup()
     }
     
-    func rightBarButtonSetup() {
+    private func rightBarButtonSetup() {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Shopping List", style: .plain, target: self, action: #selector(moveToShoppingList))
-        
     }
+    
     @objc func moveToShoppingList() {
         let vc = ShoppingListVC(dependencies: dependencies)
         navigationController?.pushViewController(vc, animated: true)

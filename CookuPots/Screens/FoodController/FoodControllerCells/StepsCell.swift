@@ -11,19 +11,7 @@ class StepsCell: UICollectionViewCell {
     
     
     private lazy var recipeText: UILabel = label()
-    
-    private func label(withColor color: UIColor = .systemPurple) -> UILabel {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.textColor = color
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "GillSans", size: 16)
-        label.setContentHuggingPriority(.required, for: .vertical)
-        label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        return label
-    }
-    
+  
     private lazy var stepLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -43,6 +31,18 @@ class StepsCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func label(withColor color: UIColor = .systemPurple) -> UILabel {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textColor = color
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "GillSans", size: 16)
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        return label
     }
     
     func setTitle(title: String) {

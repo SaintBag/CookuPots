@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class StepsHeader: UICollectionReusableView {
+final class StepsHeader: UICollectionReusableView {
     
     private lazy var stepsLabel: UILabel = {
         let label = UILabel()

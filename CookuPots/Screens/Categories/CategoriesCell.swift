@@ -23,7 +23,7 @@ class CategoriesCell: UICollectionViewCell {
         let label = UILabel()
         label.layer.cornerRadius = 4
         label.clipsToBounds = true
-        label.font = UIFont(name: "HoeflerText-Regular", size: 18)
+        label.font = UIFont(name: "GillSans", size: 18)
         label.backgroundColor = .init(red: 105/105, green: 105/105, blue: 105/105, alpha: 0.7)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -55,8 +55,8 @@ class CategoriesCell: UICollectionViewCell {
         categoryImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         
         contentView.addSubview(categoriesNameLabel)
-        categoriesNameLabel.bottomAnchor.constraint(equalTo: categoriesImage.bottomAnchor, constant: -25).isActive = true
-        categoriesNameLabel.centerXAnchor.constraint(equalTo: categoriesImage.centerXAnchor).isActive = true
+        categoriesNameLabel.bottomAnchor.constraint(equalTo: categoryImageView.bottomAnchor, constant: -25).isActive = true
+        categoriesNameLabel.centerXAnchor.constraint(equalTo: categoryImageView.centerXAnchor).isActive = true
         categoriesNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7).isActive = true
         categoriesNameLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15).isActive = true
     }

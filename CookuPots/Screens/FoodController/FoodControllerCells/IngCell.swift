@@ -17,7 +17,7 @@ class IngCell: UICollectionViewCell {
         btn.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
         btn.setImage(UIImage(systemName: "trash"), for: .selected)
         btn.tintColor = .systemPurple
-        btn.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(self.didTapButton), for: .primaryActionTriggered)
         return btn
     }()
     
@@ -30,7 +30,8 @@ class IngCell: UICollectionViewCell {
     
     @objc func didTapButton2() {
         removeFromCartAction?()
-        button.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
+        print("remove from cart")
+//        button.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
     }
     
     private lazy var ingredientLabel: UILabel = {

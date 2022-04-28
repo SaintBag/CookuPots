@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class ShoppingListCell: UITableViewCell {
+final class ShoppingListCell: UITableViewCell {
     
     var removeFromCartAction: (() -> Void)?
         
@@ -51,7 +51,7 @@ class ShoppingListCell: UITableViewCell {
     }
     
     
-    func setButtonConstrains() {
+    private func setButtonConstrains() {
         
         contentView.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
