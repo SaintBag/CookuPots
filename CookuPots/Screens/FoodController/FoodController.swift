@@ -36,7 +36,6 @@ final class FoodController: UICollectionViewController {
     private let stepsCell = "stepsCell"
     private let ingCell = "ingCell"
     
-    
     init(dependencies: Dependencies, recipe: RecipePresentable, instructions: [Step]?) {
         self.dependencies = dependencies
         self.recipe = recipe
@@ -49,7 +48,6 @@ final class FoodController: UICollectionViewController {
         configureUI()
         registerCells()
         downloadInstructions()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {

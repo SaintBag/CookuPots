@@ -9,7 +9,6 @@ import UIKit
 
 class StepsCell: UICollectionViewCell {
     
-    
     private lazy var recipeText: UILabel = label()
   
     private lazy var stepLabel: UILabel = {

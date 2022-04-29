@@ -50,7 +50,6 @@ final class ShoppingListCell: UITableViewCell {
         imageView?.image = UIImage(named: "CookUPots")
     }
     
-    
     private func setButtonConstrains() {
         
         contentView.addSubview(button)
@@ -61,7 +60,7 @@ final class ShoppingListCell: UITableViewCell {
         button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
-    func setTitleLabelConstrains() {
+    private func setTitleLabelConstrains() {
         
         contentView.addSubview(ingredientLabel)
         ingredientLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +70,5 @@ final class ShoppingListCell: UITableViewCell {
         ingredientLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2).isActive = true
         
     }
-    
 }
 

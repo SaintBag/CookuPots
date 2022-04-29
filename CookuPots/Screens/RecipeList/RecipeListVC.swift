@@ -43,7 +43,6 @@ final class RecipeListVC: UIViewController {
         configureTableView()
         configureSearchBarUI()
         downloadRecipes()
-
     }
     
     private func downloadRecipes() {
@@ -131,7 +130,6 @@ extension RecipeListVC {
         searchBar.searchBarStyle = .minimal
         searchBar.searchTextField.backgroundColor = .white
         searchBar.searchTextField.textColor = .black
-        
     }
 }
 

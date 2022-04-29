@@ -84,7 +84,6 @@ final class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDa
    private func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
-        
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -172,5 +171,4 @@ extension ShoppingListVC: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-    
 }

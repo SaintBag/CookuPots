@@ -33,8 +33,6 @@ final class CategoriesVC: UICollectionViewController {
         .init(image: UIImage(#imageLiteral(resourceName: "desserts")), title: "DESSERTS"),
     ]
     
-    private lazy var searchBar = UISearchBar()
-    
     private static let categoryHeaderId = "categoryHeaderId"
     private let headerId = "headerId"
     private let collectionCellId = "CollectionCellId"
