@@ -14,9 +14,13 @@ struct Step: Codable {
     let equipment: [Equipment]?
 }
 
-struct Ingredient: Codable, Hashable {
+struct Ingredient: Codable, Hashable, IngredientProtocol {
     let id: Int
     let name: String
+}
+
+extension SHIngredient: IngredientProtocol {
+    
 }
 
 struct Equipment: Codable {

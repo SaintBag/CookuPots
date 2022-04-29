@@ -22,8 +22,9 @@ class IngCell: UICollectionViewCell {
     }()
     
     @objc func didTapButton() {
-        button.isSelected = !button.isSelected
-        addToCartAction?(button.isSelected)
+        let wasSelected = button.isSelected
+        addToCartAction?(wasSelected)
+        button.isSelected = !wasSelected
     }
     
     private lazy var ingredientLabel: UILabel = {
@@ -49,6 +50,10 @@ class IngCell: UICollectionViewCell {
     
     func setIngredientLabel(text: String) {
         ingredientLabel.text = text
+    }
+    
+    func setButtonState(isSelected: Bool) {
+        button.isSelected = isSelected
     }
     
     private func setUpViews() {

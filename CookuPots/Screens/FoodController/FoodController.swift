@@ -13,6 +13,7 @@ final class FoodController: UICollectionViewController {
     
     private let dependencies: Dependencies
     private let recipe: RecipePresentable
+
     private var allIngredients: [Ingredient] = []
     private var instructions: [Step] = [] {
         didSet {
@@ -49,6 +50,11 @@ final class FoodController: UICollectionViewController {
         registerCells()
         downloadInstructions()
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        collectionView.reloadData()
     }
     
     required init?(coder: NSCoder) {
@@ -157,11 +163,12 @@ final class FoodController: UICollectionViewController {
             
             let ingredient = allIngredients[indexPath.row]
             cell.setIngredientLabel(text: ingredient.name.capitalized)
-            // TODO: Check if this ingredient is already in database, if so - set it's button state to .isSelected.
+            let isAlreadyInBasket = dependencies.dataController.isSaved(ingredient: ingredient)
+            cell.setButtonState(isSelected: isAlreadyInBasket)
             cell.addToCartAction = { [weak self] shouldDelete in
                 do {
                     if shouldDelete {
-                        // TODO: Remove from card action
+                        try self?.dependencies.dataController.delete(ingredient: ingredient)
                     } else {
                         try self?.dependencies.dataController.insertIngredient(ingredient: ingredient)
                     }

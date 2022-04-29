@@ -18,7 +18,13 @@ protocol DataControllerProtocol {
     func initalizeStack(completion: @escaping () -> Void)
     func insertIngredient(ingredient: Ingredient) throws
     func createIngredient(name: String)
-    func delete(ingredient: SHIngredient) throws
+    func delete(ingredient: IngredientProtocol) throws
+    func isSaved(ingredient: Ingredient) -> Bool
+}
+
+protocol IngredientProtocol {
+    var name: String { get }
+    
 }
 
 final class DataController: DataControllerProtocol {
@@ -70,10 +76,24 @@ final class DataController: DataControllerProtocol {
     }
     
     func isSaved(ingredient: Ingredient) -> Bool {
-        // TODO: Check if database contains this ingredient/its name...
+        
+        let query = ingredient.name
+        let fetchRequest: NSFetchRequest<SHIngredient> = SHIngredient.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", query)
+        do {
+            
+            let count = try context.count(for: fetchRequest)
+            if count > 0 {
+                return true
+            }
+        } catch {
+            print(error)
+        }
+        
+        return false
     }
     
-    func delete(ingredient: SHIngredient) throws {
+    func delete(ingredient: IngredientProtocol) throws {
         let fetchRequest: NSFetchRequest<SHIngredient> = SHIngredient.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name == %@", ingredient.name) 
         do {
