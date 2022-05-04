@@ -25,7 +25,7 @@ final class ShoppingListCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
-        label.font = UIFont(name: "Papyrus", size: 20)
+        label.font = UIFont(name: "GillSans", size: 20)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultLow, for: .vertical)

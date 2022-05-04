@@ -13,7 +13,7 @@ class IngCell: UICollectionViewCell {
     var removeFromCartAction: (() -> Void)?
     
     private lazy var button: UIButton = {
-        let btn = UIButton(type: .system)
+        let btn = UIButton(type: .custom)
         btn.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
         btn.setImage(UIImage(systemName: "trash"), for: .selected)
         btn.tintColor = .systemPurple
