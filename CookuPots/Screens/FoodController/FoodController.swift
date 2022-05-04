@@ -39,8 +39,10 @@ final class FoodController: UICollectionViewController {
     init(dependencies: Dependencies, recipe: RecipePresentable, instructions: [Step]?) {
         self.dependencies = dependencies
         self.recipe = recipe
-        self.instructions = instructions ?? []
         super.init(collectionViewLayout: FoodController.createViewLayout())
+        DispatchQueue.main.async {
+            self.instructions = instructions ?? []
+        }
     }
     
     override func viewDidLoad() {
