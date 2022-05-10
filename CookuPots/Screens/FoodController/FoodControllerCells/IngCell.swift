@@ -9,28 +9,22 @@ import UIKit
 
 class IngCell: UICollectionViewCell {
     
-    var addToCartAction: (() -> Void)?
+    var addToCartAction: ((Bool) -> Void)?
     var removeFromCartAction: (() -> Void)?
     
     private lazy var button: UIButton = {
-        let btn = UIButton(type: .system)
+        let btn = UIButton(type: .custom)
         btn.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
         btn.setImage(UIImage(systemName: "trash"), for: .selected)
         btn.tintColor = .systemPurple
-        btn.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
         return btn
     }()
     
     @objc func didTapButton() {
-        addToCartAction?()
-        button.setImage(UIImage(systemName: "trash"), for: .normal)
-        button.addTarget(self, action: #selector(didTapButton2), for: .touchUpInside)
-        
-    }
-    
-    @objc func didTapButton2() {
-        removeFromCartAction?()
-        button.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
+        let wasSelected = button.isSelected
+        addToCartAction?(wasSelected)
+        button.isSelected = !wasSelected
     }
     
     private lazy var ingredientLabel: UILabel = {
@@ -56,6 +50,10 @@ class IngCell: UICollectionViewCell {
     
     func setIngredientLabel(text: String) {
         ingredientLabel.text = text
+    }
+    
+    func setButtonState(isSelected: Bool) {
+        button.isSelected = isSelected
     }
     
     private func setUpViews() {

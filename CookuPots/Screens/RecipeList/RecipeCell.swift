@@ -9,61 +9,47 @@ import UIKit
 
 class RecipeCell: UITableViewCell {
     
-    var recipeImageView = UIImageView()
+    lazy var recipeImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        return imageView
+    }()
     
-    let recipeTitleLabel: UILabel = {
+    private lazy var recipeTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HoeflerText-Regular", size: 16)
+        label.font = UIFont(name: "GillSans", size: 16)
         label.textAlignment = .natural
         label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        addSubview(recipeImageView)
-        addSubview(recipeTitleLabel)
-        
-        configureImageView()
-        configureTitleLabel()
-        setImageConstrains()
-        setTitleLabelConstrains()
+        setConstrains()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureImageView() {
-        recipeImageView.layer.cornerRadius = 10
-        recipeImageView.clipsToBounds = true
-        
+    func setRecipeTitleLabel(title: String) {
+        recipeTitleLabel.text = title
     }
     
-    func configureTitleLabel() {
-        recipeTitleLabel.numberOfLines = 10
-        recipeTitleLabel.adjustsFontSizeToFitWidth = true
+    private func setConstrains() {
         
-    }
-    
-    func setImageConstrains() {
+        contentView.addSubview(recipeImageView)
         recipeImageView.translatesAutoresizingMaskIntoConstraints = false
+        recipeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12).isActive = true
+        recipeImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor).isActive = true
+        recipeImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 16/9).isActive = true
         
-        NSLayoutConstraint.activate([
-            recipeImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            recipeImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            recipeImageView.heightAnchor.constraint(equalToConstant: 80),
-            recipeImageView.widthAnchor.constraint(equalTo: recipeTitleLabel.heightAnchor, multiplier: 16/9)
-        ])
-    }
-    
-    func setTitleLabelConstrains() {
+        contentView.addSubview(recipeTitleLabel)
         recipeTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        recipeTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        recipeTitleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         recipeTitleLabel.leadingAnchor.constraint(equalTo: recipeImageView.trailingAnchor, constant: 20).isActive = true
         recipeTitleLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        recipeTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
-        
+        recipeTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12).isActive = true
     }
 }

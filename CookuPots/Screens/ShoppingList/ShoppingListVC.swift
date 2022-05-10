@@ -8,9 +8,10 @@
 import UIKit
 import CoreData
 
-class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    typealias Dependencies = HasDataController
     
-    private let dataController: DataController
+    private let dependencies: Dependencies
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
@@ -18,9 +19,13 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         return table
     }()
     
-    init(dataController: DataController) {
-        self.dataController = dataController
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -44,7 +49,7 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let fetchRequest: NSFetchRequest<SHIngredient> = SHIngredient.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.context, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dependencies.dataController.context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         return fetchedResultsController
     }()
@@ -62,16 +67,12 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else {
                 return
             }
-            self?.dataController.createIngredient(name: text)
+            self?.dependencies.dataController.createIngredient(name: text)
         }))
         present(alert, animated: true)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configureTableView() {
+   private func configureTableView() {
         view.addSubview(tableView)
         setTableViewDelegates()
         tableView.pinView(to: view)
@@ -79,33 +80,11 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func setTableViewDelegates() {
+   private func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
-        
     }
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        tableView.deselectRow(at: indexPath, animated: true)
-    //        let sheet = UIAlertController(title: "Edit", message: nil, preferredStyle: .actionSheet)
-    //        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-    //        sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
-    //            let element = SHIngredient(context: self.dataController.context)
-    //
-    //            let alert = UIAlertController(title: "Edit", message: "Edit your notes", preferredStyle: .alert)
-    //            alert.addTextField(configurationHandler: nil)
-    //            alert.textFields?.first?.text = element.name
-    //            alert.addAction(UIAlertAction(title: "Save", style: .cancel, handler: {[weak self] _ in
-    //                guard let field = alert.textFields?.first, let edditedText = field.text, !edditedText.isEmpty else {
-    //                    return
-    //                }
-    //                self?.dataController.createIngredient(name: edditedText)
-    //            }))
-    //            self.present(alert, animated: true)
-    //        }))
-    //
-    //        present(sheet, animated: true)
-    //    }
-    //
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return fetchedResultsController.sections!.count
     }
@@ -123,8 +102,6 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
              
             let image = UIImage(named: "CookUPots")
             let imageForEmptyRows = UIImageView(image: image)
-//            let imageForEmptyRows = UIImageView(image: ba)
-//            imageForEmptyRows.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
             imageForEmptyRows.contentMode = .scaleAspectFit
             tableView.backgroundView = imageForEmptyRows
             tableView.separatorStyle = .none
@@ -143,7 +120,7 @@ class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             print("try to remove \(object.name)")
             do {
-                try self.dataController.delete(ingredient: object)
+                try self.dependencies.dataController.delete(ingredient: object)
                 
             } catch(let error) {
                 print(error)
@@ -193,5 +170,4 @@ extension ShoppingListVC: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-    
 }

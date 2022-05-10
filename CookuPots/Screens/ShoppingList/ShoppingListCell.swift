@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class ShoppingListCell: UITableViewCell {
+final class ShoppingListCell: UITableViewCell {
     
     var removeFromCartAction: (() -> Void)?
         
@@ -25,7 +25,7 @@ class ShoppingListCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
-        label.font = UIFont(name: "Papyrus", size: 20)
+        label.font = UIFont(name: "GillSans", size: 20)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultLow, for: .vertical)
@@ -50,8 +50,7 @@ class ShoppingListCell: UITableViewCell {
         imageView?.image = UIImage(named: "CookUPots")
     }
     
-    
-    func setButtonConstrains() {
+    private func setButtonConstrains() {
         
         contentView.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +60,7 @@ class ShoppingListCell: UITableViewCell {
         button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
-    func setTitleLabelConstrains() {
+    private func setTitleLabelConstrains() {
         
         contentView.addSubview(ingredientLabel)
         ingredientLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +70,5 @@ class ShoppingListCell: UITableViewCell {
         ingredientLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2).isActive = true
         
     }
-    
 }
 

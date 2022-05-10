@@ -8,9 +8,17 @@
 import UIKit
 import Kingfisher
 
-class RecipeListVC: UIViewController {
-    let searchBar = UISearchBar()
+final class RecipeListVC: UIViewController {
+    typealias Dependencies = HasAPIClient
+    
+    private let dependencies: Dependencies
+    private let foodCategory: FoodCategory
+    
+    private lazy var searchBar = UISearchBar()
     private lazy var tableView = UITableView()
+    
+    private let RecipeCellID = "RecipeCell"
+
     private var recipes: [Recipe] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -19,14 +27,8 @@ class RecipeListVC: UIViewController {
         }
     }
     
-    struct CellID {
-        static let RecipeCell = "RecipeCell"
-    }
-    private let apiClient: APIClient
-    private let foodCategory: FoodCategory
-    
-    init(apiClient: APIClient, foodType: FoodCategory) {
-        self.apiClient = apiClient
+    init(dependencies: Dependencies, foodType: FoodCategory) {
+        self.dependencies = dependencies
         self.foodCategory = foodType
         super.init(nibName: nil, bundle: nil)
     }
@@ -39,21 +41,26 @@ class RecipeListVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureTableView()
-        apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipes, error) in
-            self?.recipes = recipes
-        }
-        configureUI()
+        configureSearchBarUI()
+        downloadRecipes()
     }
     
-    func configureTableView() {
+    private func downloadRecipes() {
+        dependencies.apiClient.downloadRecipies(ofType: foodCategory) { [weak self] (recipes, error) in
+            self?.recipes = recipes
+        }
+    }
+    
+    private func configureTableView() {
         view.addSubview(tableView)
         setTableViewDelegates()
         tableView.rowHeight = 100
-        tableView.register(RecipeCell.self, forCellReuseIdentifier: CellID.RecipeCell)
+        tableView.register(RecipeCell.self, forCellReuseIdentifier: RecipeCellID)
         tableView.pinView(to: view)
         
     }
-    func setTableViewDelegates() {
+    
+    private func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -67,19 +74,21 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.RecipeCell) as! RecipeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: RecipeCellID) as! RecipeCell
         let recipe = recipes[indexPath.row]
-        cell.recipeTitleLabel.text = recipe.title
+        let url = URL(string: recipe.image)
+        
+        cell.setRecipeTitleLabel(title: recipe.title)
         DispatchQueue.main.async {
-            let url = URL(string: recipe.image)
             cell.imageView?.kf.setImage(with: url)
         }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.RecipeCell) as! RecipeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: RecipeCellID) as! RecipeCell
         let recipe = recipes[indexPath.row]
         let url = URL(string: recipe.image)
         cell.imageView?.kf.setImage(with: url)
@@ -90,14 +99,14 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
         let title = recipe.title
         let image = recipe.image
         
-        let dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
-        let vc = FoodController(recipe: Recipe.init(id: id, title: title, image: image), instructions: nil, apiClient: apiClient, dataController: dataController)
+        let vc = FoodController(dependencies: dependencies as! AllDependencies, recipe: Recipe(id: id, title: title, image: image), instructions: nil)
         self.navigationController?.pushViewController(vc,animated: true)
         navigationController?.navigationItem.largeTitleDisplayMode = .always
     }
 }
 
 extension UIView {
+    
     func pinView(to superview: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         topAnchor.constraint(equalTo: superview.topAnchor).isActive = true
@@ -109,10 +118,21 @@ extension UIView {
 
 extension RecipeListVC {
     
-    func configureUI() {
+    private func configureSearchBarUI() {
         
         searchBarSetup()
         showSearchBarButton(schouldShow: true)
+    }
+    
+    private func searchBarSetup() {
+        
+        searchBar.delegate = self
+        searchBar.sizeToFit()
+        searchBar.placeholder = "Search"
+        searchBar.tintColor = .black
+        searchBar.searchBarStyle = .minimal
+        searchBar.searchTextField.backgroundColor = .white
+        searchBar.searchTextField.textColor = .black
     }
 }
 
@@ -132,17 +152,6 @@ extension RecipeListVC: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         search(schouldShow: false)
-    }
-    func searchBarSetup() {
-        
-        searchBar.delegate = self
-        searchBar.sizeToFit()
-        searchBar.placeholder = "Search"
-        searchBar.tintColor = .black
-        searchBar.searchBarStyle = .minimal
-        searchBar.searchTextField.backgroundColor = .white
-        searchBar.searchTextField.textColor = .black
-        
     }
     
     func showSearchBarButton(schouldShow: Bool) {

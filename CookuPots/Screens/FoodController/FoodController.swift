@@ -8,11 +8,21 @@
 import UIKit
 import Kingfisher
 
-class FoodController: UICollectionViewController {
+protocol RecipePresentable {
+    var id: Int { get }
+    var title: String { get }
+    var image: String { get }
+}
+
+extension Recipe: RecipePresentable {}
+extension RandomRecipe: RecipePresentable {}
+
+final class FoodController: UICollectionViewController {
+    typealias Dependencies = HasAPIClient & HasDataController
     
-    private let apiClient: APIClient
-    private let dataController: DataController
+    private let dependencies: Dependencies
     private let recipe: RecipePresentable
+
     private var allIngredients: [Ingredient] = []
     private var instructions: [Step] = [] {
         didSet {
@@ -35,32 +45,40 @@ class FoodController: UICollectionViewController {
     private let stepsCell = "stepsCell"
     private let ingCell = "ingCell"
     
-    
-    init(recipe: RecipePresentable, instructions: [Step]?, apiClient: APIClient, dataController: DataController ) {
+    init(dependencies: Dependencies, recipe: RecipePresentable, instructions: [Step]?) {
+        self.dependencies = dependencies
         self.recipe = recipe
-        self.apiClient = apiClient
-        self.dataController = dataController
-        self.instructions = instructions ?? []
         super.init(collectionViewLayout: FoodController.createViewLayout())
+        DispatchQueue.main.async {
+            self.instructions = instructions ?? []
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        collectionView.backgroundColor = .white
         registerCells()
-        if instructions.isEmpty {
-            apiClient.downloadInstructions(forRecipeID: recipe.id) { [weak self] (instructions, error) in
-                self?.instructions = instructions
-            }
-        }
+        downloadInstructions()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        collectionView.reloadData()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func registerCells() {
+    private func downloadInstructions() {
+        if instructions.isEmpty {
+            dependencies.apiClient.downloadInstructions(forRecipeID: recipe.id) { [weak self] (instructions, error) in
+                self?.instructions = instructions
+            }
+        }
+    }
+    
+    private func registerCells() {
         collectionView.register(IngCell.self, forCellWithReuseIdentifier: ingCell)
         collectionView.register(StepsCell.self, forCellWithReuseIdentifier: stepsCell)
         collectionView.register(IngredientsHeader.self, forSupplementaryViewOfKind: self.sectionHeaderId , withReuseIdentifier: sectionId)
@@ -154,10 +172,15 @@ class FoodController: UICollectionViewController {
             
             let ingredient = allIngredients[indexPath.row]
             cell.setIngredientLabel(text: ingredient.name.capitalized)
-            cell.addToCartAction = {
+            let isAlreadyInBasket = dependencies.dataController.isSaved(ingredient: ingredient)
+            cell.setButtonState(isSelected: isAlreadyInBasket)
+            cell.addToCartAction = { [weak self] shouldDelete in
                 do {
-                    try self.dataController.insertIngredient(ingredient: ingredient)
-                    
+                    if shouldDelete {
+                        try self?.dependencies.dataController.delete(ingredient: ingredient)
+                    } else {
+                        try self?.dependencies.dataController.insertIngredient(ingredient: ingredient)
+                    }
                 } catch(let error) {
                     print(error)
                 }
@@ -168,8 +191,9 @@ class FoodController: UICollectionViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: stepsCell , for: indexPath) as? StepsCell else { return UICollectionViewCell() }
             
             let stepNumber = instructions[indexPath.row].number
+            let recipeText = instructions[indexPath.row].step 
+            
             cell.setTitle(title: "STEP: \(stepNumber)")
-            let recipeText = instructions[indexPath.row].step
             cell.setRecipeText(text: recipeText)
             cell.sizeToFit()
             return cell
@@ -180,18 +204,17 @@ class FoodController: UICollectionViewController {
 extension FoodController {
     
     func configureUI() {
+        collectionView.backgroundColor = .white
         rightBarButtonSetup()
     }
     
-    func rightBarButtonSetup() {
+    private func rightBarButtonSetup() {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Shopping List", style: .plain, target: self, action: #selector(moveToShoppingList))
-        
     }
+    
     @objc func moveToShoppingList() {
-        
-        let vc = ShoppingListVC(dataController: DataController.shared)
+        let vc = ShoppingListVC(dependencies: dependencies)
         navigationController?.pushViewController(vc, animated: true)
-        
     }
 }

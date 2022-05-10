@@ -6,11 +6,10 @@
 //
 
 import UIKit
-import Kingfisher
 
-class IngredientsHeader: UICollectionReusableView {
+final class IngredientsHeader: UICollectionReusableView {
     
-    let recipePhoto: UIImageView = {
+    lazy var recipePhoto: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -57,7 +56,7 @@ class IngredientsHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews() {
+   private func setupViews() {
 
         addSubview(recipePhoto)
         recipePhoto.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -72,10 +71,10 @@ class IngredientsHeader: UICollectionReusableView {
         ingredientsLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
         addSubview(imageTitleLabel)
-        imageTitleLabel.contentMode = .center
-        imageTitleLabel.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        imageTitleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        imageTitleLabel.bottomAnchor.constraint(equalTo: recipePhoto.bottomAnchor, constant: -10).isActive = true
+        imageTitleLabel.centerXAnchor.constraint(equalTo: recipePhoto.centerXAnchor).isActive = true
+        imageTitleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7).isActive = true
+        imageTitleLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.15).isActive = true
+        imageTitleLabel.bottomAnchor.constraint(equalTo: recipePhoto.bottomAnchor, constant: -25).isActive = true
         
     }
 }
