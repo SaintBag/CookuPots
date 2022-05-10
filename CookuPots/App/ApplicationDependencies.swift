@@ -13,7 +13,7 @@ final class ApplicationDependencies: AllDependencies {
     lazy var rootViewController: UIViewController = createTabBar()
     lazy var apiClient: APIClientProtocol = APIClient(urlParametersCreator: URLParametersCreator())
     lazy var dataController: DataControllerProtocol = DataController()
-
+    
     private func createTabBar() -> UITabBarController {
         let tabBar = UITabBarController()
         tabBar.tabBar.tintColor = .purple

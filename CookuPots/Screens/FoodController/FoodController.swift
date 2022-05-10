@@ -8,6 +8,15 @@
 import UIKit
 import Kingfisher
 
+protocol RecipePresentable {
+    var id: Int { get }
+    var title: String { get }
+    var image: String { get }
+}
+
+extension Recipe: RecipePresentable {}
+extension RandomRecipe: RecipePresentable {}
+
 final class FoodController: UICollectionViewController {
     typealias Dependencies = HasAPIClient & HasDataController
     

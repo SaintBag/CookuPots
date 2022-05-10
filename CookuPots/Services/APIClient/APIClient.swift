@@ -22,7 +22,7 @@ class APIClient: APIClientProtocol {
     private let urlParametersCreator: URLParametersCreator
     private let urlSession = URLSession.shared
     private let baseURL = "https://api.spoonacular.com"
-    private let spoonacularKey = "4414fe9b06284b2ba5ea75f7a9d9e9e1"
+    private let spoonacularKey = "4414fe9b06284b2ba5ea75f7a9d9e9e1" // cocoapods-keys
     private let spoonacularKeyTwo = "219684950d1544638955eb8a1658d081"
     
     init(urlParametersCreator: URLParametersCreator) {

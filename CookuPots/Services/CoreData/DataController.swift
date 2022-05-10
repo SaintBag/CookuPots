@@ -24,7 +24,6 @@ protocol DataControllerProtocol {
 
 protocol IngredientProtocol {
     var name: String { get }
-    
 }
 
 final class DataController: DataControllerProtocol {

@@ -9,12 +9,12 @@ import UIKit
 import Kingfisher
 
 final class RecipeListVC: UIViewController {
-    
     typealias Dependencies = HasAPIClient
+    
     private let dependencies: Dependencies
     private let foodCategory: FoodCategory
     
-    private lazy var  searchBar = UISearchBar()
+    private lazy var searchBar = UISearchBar()
     private lazy var tableView = UITableView()
     
     private let RecipeCellID = "RecipeCell"

@@ -244,23 +244,3 @@ extension CategoriesVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: itemDimension, height: itemDimension)
     }
 }
-//
-//extension CategoriesVC {
-//
-//    private func titleLogoSetup() {
-//        let navController = navigationController!
-//
-//        let image = UIImage(named: "CookUPots")
-//        let imageView = UIImageView(image: image)
-//
-//        let bannerWidth = navController.navigationBar.frame.size.width / 2
-//        let bannerHeight = navController.navigationBar.frame.size.height
-//
-//        let bannerX = bannerWidth / 5
-//        let bannerY = bannerHeight / 2
-//        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
-//        imageView.contentMode = .scaleToFill
-//        imageView.backgroundColor = .white
-//        navigationItem.titleView = imageView
-//    }
-//}

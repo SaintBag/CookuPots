@@ -46,7 +46,6 @@ class CategoriesCell: UICollectionViewCell {
     }
     
     private func setupViews() {
-        
         contentView.addSubview(categoryImageView)
         categoryImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2.5).isActive = true
         categoryImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true

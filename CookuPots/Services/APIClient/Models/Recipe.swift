@@ -7,13 +7,7 @@
 
 import Foundation
 
-protocol RecipePresentable {
-    var id: Int { get }
-    var title: String { get }
-    var image: String { get }
-}
-
-struct Recipe: Codable, RecipePresentable {
+struct Recipe: Codable {
     let id: Int
     let title: String
     let image: String
@@ -35,7 +29,7 @@ struct RandomRecipesResponse: Codable {
     let recipes: [RandomRecipe]
 }
 
-struct RandomRecipe: Codable, RecipePresentable {
+struct RandomRecipe: Codable {
     let id: Int
     let title: String
     let image: String

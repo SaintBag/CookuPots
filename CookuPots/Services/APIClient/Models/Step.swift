@@ -19,9 +19,7 @@ struct Ingredient: Codable, Hashable, IngredientProtocol {
     let name: String
 }
 
-extension SHIngredient: IngredientProtocol {
-    
-}
+extension SHIngredient: IngredientProtocol {}
 
 struct Equipment: Codable {
     let id: Int

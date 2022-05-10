@@ -9,7 +9,6 @@ import UIKit
 import CoreData
 
 final class ShoppingListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
     typealias Dependencies = HasDataController
     
     private let dependencies: Dependencies
