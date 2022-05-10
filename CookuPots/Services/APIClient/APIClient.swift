@@ -114,40 +114,15 @@ class APIClient: APIClientProtocol {
                 
                     do {
                         let result = try JSONDecoder().decode(RandomRecipesResponse.self, from: data)
-                        onComplete(result.recipes, nil)
+                        onComplete((result.recipes), nil)
                     
                     } catch let jsonErr {
                         onComplete([], jsonErr)
+                        print(String.init(data: data, encoding: .utf8)!)
                     }
                 }
             }
         }.resume()
     }
-    //    func downloadRecipiesInformacion(forRecipeID recipeID: Int, onComplete: @escaping ([Recipe], Error?) -> Void) {
-    //
-    //        let baseURL = "https://api.spoonacular.com"
-    //        let endpoint = "/recipes/information"
-    //        let params = "?apiKey=\(spoonacularKeyTwo)"
-    //        guard let url = URL(string: baseURL + endpoint + params) else {
-    //            return
-    //        }
-    //        let request = URLRequest(url: url)
-    //        urlSession.dataTask(with: request) { (data, response, error) in
-    //            DispatchQueue.main.async {
-    //                if let error = error {
-    //                    onComplete([], error)
-    //                } else if let data = data {
-    //
-    //                    do {
-    //                        let recipe = try JSONDecoder().decode(RecipiesResponse.self, from: data)
-    //                        onComplete(recipe.results, nil)
-    //
-    //                    } catch let jsonErr {
-    //                        onComplete([], jsonErr)
-    //                    }
-    //                }
-    //            }
-    //        }.resume()
-    //    }
 }
 
