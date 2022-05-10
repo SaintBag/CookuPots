@@ -79,7 +79,10 @@ extension RecipeListVC: UITableViewDelegate, UITableViewDataSource {
         let url = URL(string: recipe.image)
         
         cell.setRecipeTitleLabel(title: recipe.title)
-        cell.imageView?.kf.setImage(with: url)
+        DispatchQueue.main.async {
+            cell.imageView?.kf.setImage(with: url)
+        }
+        
         return cell
     }
     
