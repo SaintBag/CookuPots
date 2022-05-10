@@ -8,7 +8,6 @@
 import UIKit
 import Kingfisher
 
-//TODO: change name
 class CategoriesCell: UICollectionViewCell {
     
     lazy var categoryImageView: UIImageView = {

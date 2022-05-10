@@ -182,7 +182,7 @@ final class FoodController: UICollectionViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: stepsCell , for: indexPath) as? StepsCell else { return UICollectionViewCell() }
             
             let stepNumber = instructions[indexPath.row].number
-            let recipeText = instructions[indexPath.row].step
+            let recipeText = instructions[indexPath.row].step 
             
             cell.setTitle(title: "STEP: \(stepNumber)")
             cell.setRecipeText(text: recipeText)
